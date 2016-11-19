@@ -9,21 +9,24 @@ public class BattleSystem
     public List<Player> Players { get; private set; }
     public int TurnCount { get; private set; }
 
-    private Queue<PlayerCommand> _playerCommands;
-    private Queue<AnonAction> _actions;
+    private Queue<TargetedAction> _playerCommands;
+    private Queue<BaseAction> _actions;
 
     public BattleSystem()
     {
         Players = new List<Player>();
 
-        _playerCommands = new Queue<PlayerCommand>();
-        _actions = new Queue<AnonAction>();
+        _playerCommands = new Queue<TargetedAction>();
+        _actions = new Queue<BaseAction>();
     }
 
     public void RegisterPlayer(Player player)
     {
         LogEx.Log<BattleSystem>("Registered player: '{0}'", player.name);
+
         Players.Add(player);
+
+        player.GetComponent<Health>().Changed += OnPlayerHealthChanged;
     }
 
     public void RegisterAction(Action action)
@@ -31,7 +34,12 @@ public class BattleSystem
         _actions.Enqueue(AnonAction.Create(action));
     }
 
-    public void RegisterPlayerCommand(PlayerCommand action)
+    public void RegisterAction(BaseAction action)
+    {
+        _actions.Enqueue(action);
+    }
+
+    public void RegisterPlayerCommand(TargetedAction action)
     {
         LogEx.Log<BattleSystem>("Registered player command: " + action.GetType());
         _playerCommands.Enqueue(action);
@@ -80,5 +88,10 @@ public class BattleSystem
     {
         action.Completed -= OnActionExecutionComplete;
         UpdateState();
+    }
+
+    void OnPlayerHealthChanged(HealthChangeEvent obj)
+    {
+        RegisterAction(UpdateHealth.Create(obj));
     }
 }

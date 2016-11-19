@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public class Root : MonoBehaviour
 {
-    void Awake()
+    void Start()
     {
         var battleSystem = new BattleSystem();
 
