@@ -16,6 +16,8 @@ public abstract class BaseAction : MonoBehaviour
     {
         if (Completed != null)
             Completed.Invoke(this);
+
+        Destroy(gameObject);
     }
 }
 
