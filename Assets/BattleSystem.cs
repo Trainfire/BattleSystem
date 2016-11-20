@@ -41,7 +41,7 @@ public class BattleSystem
 
     public void RegisterPlayerCommand(TargetedAction action)
     {
-        LogEx.Log<BattleSystem>("Registered player command: " + action.GetType());
+        LogEx.Log<BattleSystem>("Registered player command '" + action.GetType() + "' targeting '" + action.Target.name + "'");
         _playerCommands.Enqueue(action);
     }
 

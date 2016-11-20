@@ -21,9 +21,9 @@ public class Health : MonoBehaviour
         Current = 100;
     }
 
-    public void ChangeHealth(Player source, int amount, bool silent = false)
+    public void ChangeHealth(Player source, int amount)
     {
-        if (Changed != null && !silent)
+        if (Changed != null)
         {
             Changed.Invoke(new HealthChangeEvent()
             {
@@ -45,5 +45,6 @@ public class Health : MonoBehaviour
     public void Set(int value)
     {
         Current = value;
+        Debug.Log(name + " now has " + Current + " HP.");
     }
 }

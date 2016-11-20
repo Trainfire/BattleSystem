@@ -6,6 +6,8 @@ public class Player : MonoBehaviour
     public event Action<Player> ReadyStateChanged;
     public bool IsReady { get; private set; }
 
+    public TargetedAction Attack;
+
     void Awake()
     {
         gameObject.AddComponent<Health>();

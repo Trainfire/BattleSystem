@@ -20,16 +20,20 @@ public class UpdateHealth : BaseAction
     {
         while (_healthChange.Health.Current != _healthChange.NewValue)
         {
-            if (_healthChange.NewValue > _healthChange.OldValue)
-            {
-                _healthChange.Health.ChangeHealth(1);
-            }
-            else
-            {
-                _healthChange.Health.ChangeHealth(-1);
-            }
+            //if (_healthChange.NewValue > _healthChange.OldValue)
+            //{
+            //    _healthChange.Health.ChangeHealth(1);
+            //}
+            //else
+            //{
+            //    _healthChange.Health.ChangeHealth(-1);
+            //}
 
-            yield return new WaitForSeconds(0.1f);
+            //yield return new WaitForSeconds(0.1f);
+
+            _healthChange.Health.Set(_healthChange.NewValue);
+
+            yield return 0;
         }
 
         TriggerCompletion();
