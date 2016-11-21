@@ -1,21 +1,11 @@
 using System;
 using UnityEngine;
 
-class TriggerDamage : TargetedAction
+class TriggerDamage : HealthListener
 {
-    protected override void OnInitialize()
+    protected override void OnHealthChanged(HealthChangeEvent healthChange)
     {
-        base.OnInitialize();
-        Source.GetComponent<Health>().Changed += OnHealthChanged;
-    }
-
-    void OnHealthChanged(HealthChangeEvent obj)
-    {
-        TriggerComponents();
-    }
-
-    void OnDestroy()
-    {
-        Source.GetComponent<Health>().Changed -= OnHealthChanged;
+        base.OnHealthChanged(healthChange);
+        Relay(healthChange);
     }
 }

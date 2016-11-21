@@ -10,7 +10,7 @@ public class AnonAction : BaseAction
         _action = action;
     }
 
-    protected override void OnExecute()
+    protected override void OnExecute(BattleSystem battleSystem)
     {
         _action.Invoke();
         _action = null;

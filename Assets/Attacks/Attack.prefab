@@ -63,4 +63,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba326fc5222bd148b9a39e6ebe30004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Affector: 1
   Amount: -10

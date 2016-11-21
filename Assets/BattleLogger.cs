@@ -5,12 +5,12 @@ class BattleLogger : TargetedAction
 {
     public string Message;
 
-    protected override void OnExecute()
+    protected override void OnExecute(BattleSystem battleSystem)
     {
         Message = Message.Replace("{SOURCE}", Source.name);
-        Message = Message.Replace("{TARGET}", Target.name);
+        Message = Message.Replace("{TARGET}", Reciever.name);
 
-        BattleSystem.Log(Message);
+        battleSystem.Log(Message);
         TriggerCompletion();
     }
 }

@@ -10,5 +10,11 @@ public enum Equality
 public enum Context
 {
     Source,
-    Target,
+    Self,
+}
+
+public enum CharacterEvent
+{
+    None,
+    HealthChanged,
 }

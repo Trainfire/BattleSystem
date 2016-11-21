@@ -5,7 +5,7 @@ public class HealthChangeEvent
 {
     public Health Health { get; set; }
     public Player Source { get; set; }
-    public Player Target { get; set; }
+    public Player Reciever { get; set; }
     public int OldValue { get; set; }
     public int NewValue { get; set; }
 }
@@ -29,7 +29,7 @@ public class Health : MonoBehaviour
             {
                 Health = this,
                 Source = source,
-                Target = GetComponent<Player>(),
+                Reciever = GetComponent<Player>(),
                 OldValue = Current,
                 NewValue = Current + amount,
             });

@@ -28,8 +28,7 @@ public class BattleSystem
 
         player.GetComponent<Health>().Changed += OnPlayerHealthChanged;
 
-        if (player.HeldItem != null)
-            player.HeldItem.Initialize(this, player, player);
+        player.BattleEntities.ForEach(x => x.Initialize(this));
     }
 
     public void RegisterAction(Action action)
@@ -44,7 +43,7 @@ public class BattleSystem
 
     public void RegisterPlayerCommand(TargetedAction action)
     {
-        LogEx.Log<BattleSystem>("Registered player command '" + action.GetType() + "' targeting '" + action.Target.name + "'");
+        LogEx.Log<BattleSystem>("Registered player command '" + action.GetType() + "' targeting '" + action.Reciever.name + "'");
         _playerCommands.Enqueue(action);
     }
 
@@ -60,7 +59,7 @@ public class BattleSystem
             // Execute next player command.
             var next = _playerCommands.Dequeue();
             next.Completed += OnActionExecutionComplete;
-            next.Execute();
+            next.Execute(this);
         }
         else
         {
@@ -79,7 +78,7 @@ public class BattleSystem
         {
             var next = _actions.Dequeue();
             next.Completed += OnActionExecutionComplete;
-            next.Execute();
+            next.Execute(this);
         }
         else
         {

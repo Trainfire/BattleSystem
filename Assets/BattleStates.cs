@@ -116,7 +116,8 @@ public class BattleStateInput : BattleState
 
             // TEMP.
             var attack = GameObject.Instantiate(player.Attack);
-            attack.Initialize(BattleSystem, player, target);
+            attack.SetSource(player);
+            attack.SetReciever(target);
 
             BattleSystem.RegisterPlayerCommand(attack);
         });

@@ -19,10 +19,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013213702038}
-  - 114: {fileID: 114000010933703920}
+  - 114: {fileID: 114000011102621628}
   - 114: {fileID: 114000012223844094}
   - 114: {fileID: 114000013428283780}
-  - 114: {fileID: 114000011962994010}
   m_Layer: 0
   m_Name: Thorny
   m_TagString: DontDestroyOnTrigger
@@ -43,7 +42,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!114 &114000010933703920
+--- !u!114 &114000011102621628
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -51,23 +50,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012589421886}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc6fc92287df16a44bdce77179d6ad96, type: 3}
+  m_Script: {fileID: 11500000, guid: f78ab88b416ff854ba84237a85a47237, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Equality: 0
-  Threshold: 90
---- !u!114 &114000011962994010
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012589421886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e1a584319436c444a787c80dd032042, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MaxUses: 2
 --- !u!114 &114000012223844094
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8789afbe15b4114f8881703f75c42c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Message: Player One restored health!
+  Message: '{SOURCE} was hurt by {TARGET}''s thorns!'
 --- !u!114 &114000013428283780
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -91,4 +76,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba326fc5222bd148b9a39e6ebe30004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Amount: 10
+  Affector: 0
+  Amount: -10

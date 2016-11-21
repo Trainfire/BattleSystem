@@ -205,7 +205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Attack: {fileID: 114000011325054062, guid: 63ad95f64ced2114885dc44153fce9bb, type: 2}
-  HeldItem: {fileID: 114000010933703920, guid: f91d159286b96d44ea6b6dba9eed50fd, type: 2}
+  HeldItem: {fileID: 1000012589421886, guid: f91d159286b96d44ea6b6dba9eed50fd, type: 2}
+  Ability: {fileID: 1000012589421886, guid: 5908f0fcfe8c22745aab6b532c28dcb7, type: 2}
 --- !u!4 &354565680
 Transform:
   m_ObjectHideFlags: 0
@@ -288,6 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Attack: {fileID: 114000011325054062, guid: 63ad95f64ced2114885dc44153fce9bb, type: 2}
   HeldItem: {fileID: 0}
+  Ability: {fileID: 0}
 --- !u!4 &2079508388
 Transform:
   m_ObjectHideFlags: 0

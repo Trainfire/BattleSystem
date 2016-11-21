@@ -11,7 +11,7 @@ public class UpdateHealth : BaseAction
         _healthChange = healthChange;
     }
 
-    protected override void OnExecute()
+    protected override void OnExecute(BattleSystem battleSystem)
     {
         StartCoroutine(Animate());
     }

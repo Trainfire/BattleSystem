@@ -3,45 +3,56 @@ using System;
 
 public class TargetedAction : BaseAction
 {
-    public BattleSystem BattleSystem { get; private set; }
     public Player Source { get; private set; }
-    public Player Target { get; private set; }
+    public Player Reciever { get; private set; }
 
-    protected override void OnExecute() { }
+    protected override void OnExecute(BattleSystem battleSystem) { }
 
-    public void Initialize(BattleSystem battleSystem, Player source, Player target)
+    //public void Initialize(BattleSystem battleSystem)
+    //{
+    //    BattleSystem = battleSystem;
+    //    OnInitialize();
+    //}
+
+    public void SetSource(Player source)
     {
-        BattleSystem = battleSystem;
         Source = source;
-        Target = target;
-
-        OnInitialize();
+        OnSourceSet();
     }
 
-    protected virtual void OnInitialize() { }
+    public void SetReciever(Player reciever)
+    {
+        Reciever = reciever;
+        OnRecieverSet();
+    }
 
-    public static T Create<T>(BattleSystem battleSystem, Player source, Player target) where T : TargetedAction
+    protected virtual void OnSourceSet() { }
+    protected virtual void OnRecieverSet() { }
+
+    public static T Create<T>(Player source, Player reciever) where T : TargetedAction
     {
         var targetedAction = new GameObject("TargetedAction").AddComponent<T>();
-        targetedAction.Initialize(battleSystem, source, target);
+        targetedAction.SetSource(source);
+        targetedAction.SetReciever(reciever);
         return targetedAction;
     }
 
-    public static T Create<T>(BattleSystem battleSystem, Player target) where T : TargetedAction
+    public static T Create<T>(Player reciever) where T : TargetedAction
     {
         var targetedAction = new GameObject("TargetedAction").AddComponent<T>();
-        targetedAction.Initialize(battleSystem, null, target);
+        targetedAction.SetReciever(reciever);
         return targetedAction;
     }
 
-    protected void TriggerComponents()
+    protected void Relay(BattleSystem battleSystem)
     {
         foreach (var action in GetComponents<TargetedAction>())
         {
             if (action != this)
             {
-                action.Initialize(BattleSystem, Source, Target);
-                BattleSystem.RegisterAction(action);
+                action.SetSource(Source);
+                action.SetReciever(Reciever);
+                battleSystem.RegisterAction(action);
             }
         }
     }

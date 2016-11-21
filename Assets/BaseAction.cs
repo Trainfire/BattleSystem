@@ -5,12 +5,12 @@ public abstract class BaseAction : MonoBehaviour
 {
     public event Action<BaseAction> Completed;
 
-    public virtual void Execute()
+    public virtual void Execute(BattleSystem battleSystem)
     {
-        OnExecute();
+        OnExecute(battleSystem);
     }
 
-    protected abstract void OnExecute();
+    protected abstract void OnExecute(BattleSystem battleSystem);
 
     protected void TriggerCompletion()
     {
@@ -20,5 +20,7 @@ public abstract class BaseAction : MonoBehaviour
         if (tag != "DontDestroyOnTrigger")
             Destroy(gameObject);
     }
+
+    protected virtual void OnFinish() { }
 }
 

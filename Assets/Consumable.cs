@@ -7,10 +7,8 @@ class Consumable : TargetedAction
 
     private int _uses;
 
-    protected override void OnExecute()
+    protected override void OnExecute(BattleSystem battleSystem)
     {
-        base.OnExecute();
-
         _uses++;
 
         TriggerCompletion();
