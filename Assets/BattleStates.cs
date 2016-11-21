@@ -1,6 +1,6 @@
 using UnityEngine;
 using System;
-using System.Collections.Generic;
+using System.Linq;
 
 public enum BattleStateID
 {
@@ -112,9 +112,11 @@ public class BattleStateInput : BattleState
             player.ReadyStateChanged -= OnPlayerReadyStateChanged;
             player.ResetReady();
 
+            var target = BattleSystem.Players.Where(x => x != player).First();
+
             // TEMP.
             var attack = GameObject.Instantiate(player.Attack);
-            attack.Initialize(BattleSystem, player, player);
+            attack.Initialize(BattleSystem, player, target);
 
             BattleSystem.RegisterPlayerCommand(attack);
         });

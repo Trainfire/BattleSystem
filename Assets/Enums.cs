@@ -6,3 +6,9 @@ public enum Equality
     GreaterThan,
     GreaterThanEqualTo,
 }
+
+public enum Context
+{
+    Source,
+    Target,
+}

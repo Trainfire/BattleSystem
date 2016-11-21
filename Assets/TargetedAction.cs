@@ -33,4 +33,16 @@ public class TargetedAction : BaseAction
         targetedAction.Initialize(battleSystem, null, target);
         return targetedAction;
     }
+
+    protected void TriggerComponents()
+    {
+        foreach (var action in GetComponents<TargetedAction>())
+        {
+            if (action != this)
+            {
+                action.Initialize(BattleSystem, Source, Target);
+                BattleSystem.RegisterAction(action);
+            }
+        }
+    }
 }

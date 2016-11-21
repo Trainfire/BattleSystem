@@ -29,6 +29,7 @@ class TriggerHealth : TargetedAction
 
     void OnDestroy()
     {
-        Source.GetComponent<Health>().Changed -= OnHealthChanged;
+        if (Source != null)
+            Source.GetComponent<Health>().Changed -= OnHealthChanged;
     }
 }
