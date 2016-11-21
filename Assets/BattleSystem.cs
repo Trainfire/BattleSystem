@@ -27,6 +27,9 @@ public class BattleSystem
         Players.Add(player);
 
         player.GetComponent<Health>().Changed += OnPlayerHealthChanged;
+
+        if (player.HeldItem != null)
+            player.HeldItem.Initialize(this, player, player);
     }
 
     public void RegisterAction(Action action)

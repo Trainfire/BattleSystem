@@ -7,10 +7,14 @@ public class Player : MonoBehaviour
     public bool IsReady { get; private set; }
 
     public TargetedAction Attack;
+    public TargetedAction HeldItem;
 
     void Awake()
     {
         gameObject.AddComponent<Health>();
+
+        if (HeldItem != null)
+            HeldItem = Instantiate(HeldItem);
     }
 
     public void ToggleReady()
