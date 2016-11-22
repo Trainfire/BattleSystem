@@ -16,9 +16,6 @@ public abstract class BaseAction : MonoBehaviour
     {
         if (Completed != null)
             Completed.Invoke(this);
-
-        if (tag != "DontDestroyOnTrigger")
-            Destroy(gameObject);
     }
 
     protected virtual void OnFinish() { }

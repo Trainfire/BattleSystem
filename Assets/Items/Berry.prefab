@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc6fc92287df16a44bdce77179d6ad96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _ignoreSelf: 1
   Equality: 0
   Threshold: 90
 --- !u!114 &114000011962994010

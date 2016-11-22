@@ -3,6 +3,8 @@ using UnityEngine;
 
 public abstract class HealthListener : PlayerListener
 {
+    private bool _ignoreSelfDamage = true;
+
     private Health _health;
 
     protected override void OnSetPlayer()
@@ -10,7 +12,15 @@ public abstract class HealthListener : PlayerListener
         base.OnSetPlayer();
 
         _health = Player.Health;
-        _health.Changed += OnHealthChanged;
+        _health.Changed += CheckSource;
+    }
+
+    void CheckSource(HealthChangeEvent healthChange)
+    {
+        if (_ignoreSelfDamage && healthChange.Source == healthChange.Reciever)
+            return;
+
+        OnHealthChanged(healthChange);
     }
 
     protected virtual void OnHealthChanged(HealthChangeEvent healthChange) { }
@@ -30,6 +40,6 @@ public abstract class HealthListener : PlayerListener
     void OnDestroy()
     {
         if (_health != null)
-            _health.Changed -= OnHealthChanged;
+            _health.Changed -= CheckSource;
     }
 }

@@ -93,6 +93,9 @@ public class BattleStateInput : BattleState
         BattleSystem.Players.ForEach(x => x.ReadyStateChanged += OnPlayerReadyStateChanged);
 
         LogEx.Log<BattleStates>("Waiting for {0} players.", BattleSystem.Players.Count);
+
+        if (BattleSystem.AutoReadyPlayers)
+            BattleSystem.Players.ForEach(x => x.ToggleReady());
     }
 
     void OnPlayerReadyStateChanged(Player player)
@@ -105,8 +108,6 @@ public class BattleStateInput : BattleState
 
     public override void OnEnd()
     {
-        LogEx.Log<BattleStates>("#-- Begin Turn " + (BattleSystem.TurnCount + 1) + " ---#");
-
         BattleSystem.Players.ForEach(player =>
         {
             player.ReadyStateChanged -= OnPlayerReadyStateChanged;
@@ -131,12 +132,17 @@ public class BattleStateExecute : BattleState
     public override void OnStart()
     {
         base.OnStart();
+
+        LogEx.Log<BattleStates>("#-- Begin Turn " + (BattleSystem.TurnCount + 1) + " ---#");
+
         BattleSystem.CommandsDepleted += OnCommandsDepleted;
         BattleSystem.Execute();
     }
 
     void OnCommandsDepleted(BattleSystem battleSystem)
     {
+        LogEx.Log<BattleStates>("#-- End Turn " + (BattleSystem.TurnCount + 1) + " ---#");
+
         battleSystem.CommandsDepleted -= OnCommandsDepleted;
         End();
     }

@@ -42,6 +42,7 @@ public class UpdateHealth : BaseAction
     public static UpdateHealth Create(HealthChangeEvent e)
     {
         var updateHealth = new GameObject("UpdateHealth").AddComponent<UpdateHealth>();
+        updateHealth.tag = "DontDestroyOnTrigger";
         updateHealth.Initialize(e);
         return updateHealth;
     }

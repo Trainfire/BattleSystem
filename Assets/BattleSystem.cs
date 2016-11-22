@@ -2,17 +2,23 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-public class BattleSystem
+public class BattleSystem : MonoBehaviour
 {
+    [SerializeField] private bool _autoReadyPlayers;
+    [SerializeField] private bool _enableManualStepping;
+    [SerializeField] private bool _logRegistrations;
+
     public event Action<BattleSystem> CommandsDepleted;
 
     public List<Player> Players { get; private set; }
     public int TurnCount { get; private set; }
+    public bool AutoReadyPlayers { get { return _autoReadyPlayers; } }
+    public bool EnableManualStepping { get { return _enableManualStepping; } set { _enableManualStepping = true; } }
 
     private Queue<TargetedAction> _playerCommands;
     private Queue<BaseAction> _actions;
 
-    public BattleSystem()
+    void Awake()
     {
         Players = new List<Player>();
 
@@ -31,13 +37,19 @@ public class BattleSystem
         player.BattleEntities.ForEach(x => x.Initialize(this));
     }
 
-    public void RegisterAction(Action action)
+    public void RegisterAction(Action action, string name)
     {
-        _actions.Enqueue(AnonAction.Create(action));
+        if (_logRegistrations)
+            LogEx.Log<BattleSystem>("Registered action: " + name);
+
+        _actions.Enqueue(AnonAction.Create(action, name));
     }
 
     public void RegisterAction(BaseAction action)
     {
+        if (_logRegistrations)
+            LogEx.Log<BattleSystem>("Registered action: " + action.GetType().Name);
+
         _actions.Enqueue(action);
     }
 
@@ -49,13 +61,15 @@ public class BattleSystem
 
     public void Log(string message)
     {
-        RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + message));
+        RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + message), "BattleLog");
     }
 
     public void Execute()
     {
         if (_playerCommands.Count != 0)
         {
+            LogEx.Log<BattleSystem>("Executing next player's command...");
+
             // Execute next player command.
             var next = _playerCommands.Dequeue();
             next.Completed += OnActionExecutionComplete;
@@ -72,7 +86,7 @@ public class BattleSystem
         }
     }
 
-    void UpdateState()
+    public void Continue()
     {
         if (_actions.Count != 0)
         {
@@ -89,11 +103,19 @@ public class BattleSystem
     void OnActionExecutionComplete(BaseAction action)
     {
         action.Completed -= OnActionExecutionComplete;
-        UpdateState();
+
+        if (!_enableManualStepping)
+            Continue();
     }
 
     void OnPlayerHealthChanged(HealthChangeEvent obj)
     {
         RegisterAction(UpdateHealth.Create(obj));
+    }
+
+    void LateUpdate()
+    {
+        if (Input.GetKeyUp(KeyCode.Space) && _enableManualStepping)
+            Continue();
     }
 }

@@ -5,6 +5,5 @@ public class Attack : TargetedAction
         battleSystem.Log(Source.name + " used Flail!");
         Relay(battleSystem);
         TriggerCompletion();
-        Destroy(gameObject);
     }
 }

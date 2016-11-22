@@ -5,7 +5,7 @@ public class Root : MonoBehaviour
 {
     void Start()
     {
-        var battleSystem = new BattleSystem();
+        var battleSystem = gameObject.GetComponent<BattleSystem>();
 
         foreach (var player in FindObjectsOfType<Player>())
         {

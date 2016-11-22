@@ -16,14 +16,11 @@ public class AnonAction : BaseAction
         _action = null;
 
         TriggerCompletion();
-
-        Destroy(gameObject);
     }
 
-    public static AnonAction Create(Action action)
+    public static AnonAction Create(Action action, string name = "AnonAction")
     {
-        var go = new GameObject("AnonAction");
-        var anonAction = go.AddComponent<AnonAction>();
+        var anonAction = new GameObject(name).AddComponent<AnonAction>();
         anonAction.Initialize(action);
         return anonAction;
     }
