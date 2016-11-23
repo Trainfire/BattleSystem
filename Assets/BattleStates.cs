@@ -120,7 +120,7 @@ public class BattleStateInput : BattleState
             attack.SetSource(player);
             attack.SetReciever(target);
 
-            BattleSystem.RegisterPlayerCommand(attack);
+            BattleSystem.Queue.RegisterPlayerCommand(attack);
         });
     }
 }
@@ -136,7 +136,7 @@ public class BattleStateExecute : BattleState
         LogEx.Log<BattleStates>("#-- Begin Turn " + (BattleSystem.TurnCount + 1) + " ---#");
 
         BattleSystem.CommandsDepleted += OnCommandsDepleted;
-        BattleSystem.Execute();
+        BattleSystem.Continue();
     }
 
     void OnCommandsDepleted(BattleSystem battleSystem)
