@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 4000013213702038}
-  - 114: {fileID: 114000012185150966}
+  - 114: {fileID: 114000010480919108}
   - 114: {fileID: 114000011796401224}
   - 114: {fileID: 114000010682720668}
   m_Layer: 0
@@ -42,6 +42,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &114000010480919108
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012589421886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64b2b580906daea47baa5ca73ebed091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Log: 1
 --- !u!114 &114000010682720668
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -53,6 +65,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba326fc5222bd148b9a39e6ebe30004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Log: 0
   Affector: 2
   Amount: -5
 --- !u!114 &114000011796401224
@@ -66,15 +79,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8789afbe15b4114f8881703f75c42c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Log: 0
   Message: The sandstorm rages on.
---- !u!114 &114000012185150966
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012589421886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6f5501ab359a0b4999c100c56476f64, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

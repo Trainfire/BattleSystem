@@ -7,8 +7,11 @@ class BattleLogger : TargetedAction
 
     protected override void OnExecute(BattleSystem battleSystem)
     {
-        Message = Message.Replace("{SOURCE}", Source.name);
-        Message = Message.Replace("{TARGET}", Reciever.name);
+        if (Source != null)
+            Message = Message.Replace("{SOURCE}", Source.name);
+
+        if (Reciever != null)
+            Message = Message.Replace("{TARGET}", Reciever.name);
 
         battleSystem.Log(Message);
         TriggerCompletion();

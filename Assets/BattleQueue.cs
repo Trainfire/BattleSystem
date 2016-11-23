@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class BattleQueue : MonoBehaviour
 {
@@ -10,30 +11,28 @@ public class BattleQueue : MonoBehaviour
     private Queue<BaseAction> _weather;
     private Queue<BaseAction> _backLog;
 
-    private Queue<Queue<BaseAction>> _master;
+    private List<Queue<BaseAction>> _master;
     private Queue<BaseAction> _current;
 
     public BattleQueue()
     {
-        _master = new Queue<Queue<BaseAction>>();
+        _master = new List<Queue<BaseAction>>();
 
         _playerCommands = new Queue<BaseAction>();
         _weather = new Queue<BaseAction>();
         _backLog = new Queue<BaseAction>();
+
+        // Specify order here.
+        _master.Add(_playerCommands);
+        // TODO: Status Updates
+        _master.Add(_weather);
 
         Reset();
     }
 
     public void Reset()
     {
-        _master.Clear();
-
-        // Specify order here.
-        _master.Enqueue(_playerCommands);
-        // TODO: Status Updates
-        _master.Enqueue(_weather);
-
-        _current = _master.Dequeue();
+        _current = _master[0];
     }
 
     public BaseAction Dequeue()
@@ -42,18 +41,9 @@ public class BattleQueue : MonoBehaviour
             return _backLog.Dequeue();
 
         if (_current.Count == 0)
-        {
-            if (_master.Count != 0 && _current.Count != 0)
-            {
-                _current = _master.Dequeue();
-            }
-            else
-            {
-                return null;
-            }
-        }
+            _current = _master.FirstOrDefault(x => x.Count != 0);
 
-        return _current.Dequeue();
+        return _current != null && _current.Count != 0 ? _current.Dequeue() : null;
     }
 
     public void ClearWeather()
