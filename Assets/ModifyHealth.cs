@@ -8,8 +8,16 @@ class ModifyHealth : TargetedAction
 
     protected override void OnExecute(BattleSystem battleSystem)
     {
-        var health = Affector == Context.Source ? Source.GetComponent<Health>() : Reciever.GetComponent<Health>();
-        health.ChangeHealth(Source, Amount);
+        if (Affector != Context.All)
+        {
+            var health = Affector == Context.Source ? Source.GetComponent<Health>() : Reciever.GetComponent<Health>();
+            health.ChangeHealth(Source, Amount);
+        }
+        else
+        {
+            battleSystem.Players.ForEach(x => x.Health.ChangeHealth(Source, Amount));
+        }
+
         TriggerCompletion();
     }
 }
