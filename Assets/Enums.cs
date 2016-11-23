@@ -14,8 +14,8 @@ public enum Context
     All,
 }
 
-public enum CharacterEvent
+public enum Weather
 {
     None,
-    HealthChanged,
+    Sandstorm,
 }

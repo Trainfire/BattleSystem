@@ -38,8 +38,9 @@ public class Health : MonoBehaviour
 
     public void ChangeHealth(int amount)
     {
+        var old = Current;
         Current += amount;
-        Debug.Log(name + " received " + amount + " damage.");
+        Debug.LogFormat("{0} HP changed from {1} to {2}", name, old, Current);
     }
 
     public void Set(int value)

@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(BattleQueue))]
+[RequireComponent(typeof(BattleQueue), typeof(BattleWeather))]
 public class BattleSystem : MonoBehaviour
 {
     [SerializeField] private bool _autoReadyPlayers;
@@ -11,6 +11,7 @@ public class BattleSystem : MonoBehaviour
     public event Action<BattleSystem> CommandsDepleted;
 
     public BattleQueue Queue { get; private set; }
+    public BattleWeather Weather { get; private set; }
     public List<Player> Players { get; private set; }
     public int TurnCount { get; private set; }
 
@@ -21,6 +22,12 @@ public class BattleSystem : MonoBehaviour
     {
         Players = new List<Player>();
         Queue = gameObject.GetComponent<BattleQueue>();
+        Weather = gameObject.GetComponent<BattleWeather>();
+    }
+
+    void Start()
+    {
+        Weather.Initialize(this);
     }
 
     public void RegisterPlayer(Player player)
@@ -41,9 +48,10 @@ public class BattleSystem : MonoBehaviour
 
     public void Continue()
     {
-        if (!Queue.Empty)
+        var next = Queue.Dequeue();
+
+        if (next != null)
         {
-            var next = Queue.Dequeue();
             next.Completed += OnActionExecutionComplete;
             next.Execute(this);
         }
@@ -52,6 +60,8 @@ public class BattleSystem : MonoBehaviour
             LogEx.Log<BattleSystem>("No more battle actions left to execute.");
 
             TurnCount++;
+
+            Queue.Reset();
 
             if (CommandsDepleted != null)
                 CommandsDepleted.Invoke(this);

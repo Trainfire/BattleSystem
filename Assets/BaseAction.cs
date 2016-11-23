@@ -3,10 +3,15 @@ using System;
 
 public abstract class BaseAction : MonoBehaviour
 {
+    public bool Log;
+
     public event Action<BaseAction> Completed;
 
     public virtual void Execute(BattleSystem battleSystem)
     {
+        if (Log)
+            LogEx.Log<BaseAction>(name + " executed.");
+
         OnExecute(battleSystem);
     }
 

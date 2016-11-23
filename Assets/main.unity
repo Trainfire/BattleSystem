@@ -205,8 +205,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Attack: {fileID: 114000011325054062, guid: 63ad95f64ced2114885dc44153fce9bb, type: 2}
-  HeldItem: {fileID: 1000012589421886, guid: f91d159286b96d44ea6b6dba9eed50fd, type: 2}
-  Ability: {fileID: 1000012589421886, guid: 5908f0fcfe8c22745aab6b532c28dcb7, type: 2}
+  HeldItem: {fileID: 0}
+  Ability: {fileID: 0}
 --- !u!4 &354565680
 Transform:
   m_ObjectHideFlags: 0
@@ -230,6 +230,8 @@ GameObject:
   - 4: {fileID: 768872338}
   - 114: {fileID: 768872337}
   - 114: {fileID: 768872339}
+  - 114: {fileID: 768872340}
+  - 114: {fileID: 768872341}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -274,7 +276,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _autoReadyPlayers: 1
   _enableManualStepping: 1
+--- !u!114 &768872340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 768872336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe03fd1482faf94fb7e78acb361adc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   _logRegistrations: 0
+--- !u!114 &768872341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 768872336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6973350a87aab4c8532f574b947059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _initialWeather: 1
+  Sandstorm: {fileID: 1000012589421886, guid: e515e2f234882084aabb942aa8dc50e2, type: 2}
 --- !u!1 &2079508386
 GameObject:
   m_ObjectHideFlags: 0
