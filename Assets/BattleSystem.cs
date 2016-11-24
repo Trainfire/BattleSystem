@@ -37,10 +37,10 @@ public class BattleSystem : MonoBehaviour
         player.BattleEntities.ForEach(x => x.Initialize(this));
     }
 
-    public void Log(string message)
+    public void Log(string message, params object[] args)
     {
         if (!string.IsNullOrEmpty(message))
-            Queue.RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + message), "BattleLog");
+            Queue.RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + string.Format(message, args)), "BattleLog");
     }
 
     public void Continue()
