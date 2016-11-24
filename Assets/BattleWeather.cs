@@ -1,19 +1,18 @@
 using UnityEngine;
+using System;
 
 public class BattleWeather : MonoBehaviour
 {
-    [SerializeField] private Weather _initialWeather;
+    public event Action<BattleWeather> Changed;
 
     public GameObject Sandstorm;
 
+    [SerializeField] private Weather _initialWeather;
+
     public BaseAction Current { get; private set; }
 
-    private BattleSystem _battleSystem;
-
-    public void Initialize(BattleSystem battleSystem)
+    void Start()
     {
-        _battleSystem = battleSystem;
-
         Set(_initialWeather);
     }
 
@@ -27,14 +26,8 @@ public class BattleWeather : MonoBehaviour
             case Weather.Sandstorm: Create(Sandstorm); break;
         }
 
-        if (Current != null)
-        {
-            _battleSystem.Queue.RegisterWeather(Current);
-        }
-        else
-        {
-            _battleSystem.Queue.ClearWeather();
-        }
+        if (Changed != null)
+            Changed.Invoke(this);
     }
 
     public void Clear()

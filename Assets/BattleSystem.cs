@@ -23,11 +23,7 @@ public class BattleSystem : MonoBehaviour
         Players = new List<Player>();
         Queue = gameObject.GetComponent<BattleQueue>();
         Weather = gameObject.GetComponent<BattleWeather>();
-    }
-
-    void Start()
-    {
-        Weather.Initialize(this);
+        Weather.Changed += OnWeatherChanged;
     }
 
     public void RegisterPlayer(Player player)
@@ -62,6 +58,7 @@ public class BattleSystem : MonoBehaviour
             TurnCount++;
 
             Queue.Reset();
+            Queue.RegisterWeather(Weather.Current);
 
             if (CommandsDepleted != null)
                 CommandsDepleted.Invoke(this);
@@ -79,6 +76,18 @@ public class BattleSystem : MonoBehaviour
     void OnPlayerHealthChanged(HealthChangeEvent obj)
     {
         Queue.RegisterAction(UpdateHealth.Create(obj));
+    }
+
+    void OnWeatherChanged(BattleWeather weather)
+    {
+        if (weather.Current != null)
+        {
+            Queue.RegisterWeather(weather.Current);
+        }
+        else
+        {
+            Queue.ClearWeather();
+        }
     }
 
     void LateUpdate()
