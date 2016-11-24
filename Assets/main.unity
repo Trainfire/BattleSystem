@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec84b06a9d42bb34a8421c9623e3ceff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attack: {fileID: 114000011325054062, guid: 63ad95f64ced2114885dc44153fce9bb, type: 2}
+  Attack: {fileID: 114000011325054062, guid: d6ffeb08af5a92441b54ab8cb8b64053, type: 2}
   HeldItem: {fileID: 0}
   Ability: {fileID: 0}
 --- !u!4 &354565680
@@ -299,8 +299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e6973350a87aab4c8532f574b947059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _initialWeather: 1
   Sandstorm: {fileID: 1000012589421886, guid: e515e2f234882084aabb942aa8dc50e2, type: 2}
+  _initialWeather: 0
 --- !u!1 &2079508386
 GameObject:
   m_ObjectHideFlags: 0
