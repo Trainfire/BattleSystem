@@ -22,6 +22,7 @@ GameObject:
   - 114: {fileID: 114000010480919108}
   - 114: {fileID: 114000011796401224}
   - 114: {fileID: 114000010682720668}
+  - 114: {fileID: 114000011744563158}
   m_Layer: 0
   m_Name: Sandstorm
   m_TagString: DontDestroyOnTrigger
@@ -68,6 +69,20 @@ MonoBehaviour:
   Log: 0
   Affector: 2
   Amount: -5
+--- !u!114 &114000011744563158
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012589421886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e1a584319436c444a787c80dd032042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Log: 0
+  MaxExecutions: -1
+  ExpiryMessage: The sandstorm subsided.
 --- !u!114 &114000011796401224
 MonoBehaviour:
   m_ObjectHideFlags: 1

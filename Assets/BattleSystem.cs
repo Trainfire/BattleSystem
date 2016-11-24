@@ -39,7 +39,8 @@ public class BattleSystem : MonoBehaviour
 
     public void Log(string message)
     {
-        Queue.RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + message), "BattleLog");
+        if (!string.IsNullOrEmpty(message))
+            Queue.RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + message), "BattleLog");
     }
 
     public void Continue()
