@@ -19,3 +19,10 @@ public enum Weather
     None,
     Sandstorm,
 }
+
+public enum Status
+{
+    None,
+    Poisoned,
+    Asleep,
+}

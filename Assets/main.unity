@@ -232,6 +232,7 @@ GameObject:
   - 114: {fileID: 768872339}
   - 114: {fileID: 768872340}
   - 114: {fileID: 768872341}
+  - 114: {fileID: 768872342}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -301,6 +302,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Sandstorm: {fileID: 1000012589421886, guid: e515e2f234882084aabb942aa8dc50e2, type: 2}
   _initialWeather: 0
+--- !u!114 &768872342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 768872336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c8971fc4d002d4ea3301534f4a8d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Poison: {fileID: 0}
+  Sleep: {fileID: 1000011293771328, guid: 8773d2f0119c82345a2c0a972a415ef0, type: 2}
 --- !u!1 &2079508386
 GameObject:
   m_ObjectHideFlags: 0

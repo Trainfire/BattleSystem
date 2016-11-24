@@ -10,6 +10,7 @@ public class BattleSystem : MonoBehaviour
 
     public event Action<BattleSystem> CommandsDepleted;
 
+    public BattleHelper Helper { get; private set; }
     public BattleQueue Queue { get; private set; }
     public BattleWeather Weather { get; private set; }
     public List<Player> Players { get; private set; }
@@ -22,6 +23,8 @@ public class BattleSystem : MonoBehaviour
     {
         Players = new List<Player>();
         Queue = gameObject.GetComponent<BattleQueue>();
+        Helper = gameObject.GetComponent<BattleHelper>();
+
         Weather = gameObject.GetComponent<BattleWeather>();
         Weather.Changed += OnWeatherChanged;
     }

@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
     private Health _health;
     public Health Health { get { return _health; } }
 
+    private TargetedAction _statusEffect;
+    public Status Status { get; private set; }
+
     private List<PlayerListener> _battleEntities;
     public List<PlayerListener> BattleEntities { get { return _battleEntities; } }
 
@@ -42,6 +45,21 @@ public class Player : MonoBehaviour
         {
             battleEntity.SetPlayer(this);
             _battleEntities.Add(battleEntity);
+        }
+    }
+
+    public void SetStatus(Status status, TargetedAction action)
+    {
+        Status = status;
+
+        if (Status == Status.None && _statusEffect != null)
+        {
+            Destroy(_statusEffect.gameObject);
+        }
+        else if (action != null)
+        {
+            _statusEffect = action;
+            _statusEffect.SetReciever(this);
         }
     }
 

@@ -7,10 +7,14 @@ public abstract class BaseAction : MonoBehaviour
 
     public event Action<BaseAction> Completed;
 
+    private BattleSystem _battleSystem;
+
     public virtual void Execute(BattleSystem battleSystem)
     {
         if (Log)
             LogEx.Log<BaseAction>(name + " executed.");
+
+        _battleSystem = battleSystem;
 
         OnExecute(battleSystem);
     }
@@ -24,5 +28,12 @@ public abstract class BaseAction : MonoBehaviour
     }
 
     protected virtual void OnFinish() { }
+
+    void OnDestroy()
+    {
+        var triggerOnDestroy = GetComponent<TriggerOnDestroy>();
+        if (triggerOnDestroy != null && _battleSystem != null)
+            triggerOnDestroy.RelayToReference(_battleSystem);
+    }
 }
 
