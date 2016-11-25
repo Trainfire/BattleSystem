@@ -7,10 +7,10 @@ public enum Equality
     GreaterThanEqualTo,
 }
 
-public enum Context
+public enum Reciever
 {
     Source,
-    Self,
+    Target,
     All,
 }
 

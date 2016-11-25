@@ -23,7 +23,9 @@ public class BattleSystem : MonoBehaviour
     {
         Players = new List<Player>();
         Queue = gameObject.GetComponent<BattleQueue>();
+
         Helper = gameObject.GetComponent<BattleHelper>();
+        Helper.Initialize(this);
 
         Weather = gameObject.GetComponent<BattleWeather>();
         Weather.Changed += OnWeatherChanged;
@@ -43,7 +45,7 @@ public class BattleSystem : MonoBehaviour
     public void Log(string message, params object[] args)
     {
         if (!string.IsNullOrEmpty(message))
-            Queue.RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + string.Format(message, args)), "BattleLog");
+            Queue.RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + message), "BattleLog");
     }
 
     public void Continue()

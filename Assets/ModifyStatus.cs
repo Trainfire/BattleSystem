@@ -3,14 +3,14 @@ using UnityEngine;
 
 class ModifyStatus : TargetedAction
 {
-    public Context Affector;
+    public Reciever Affector;
     public Status Status;
 
     protected override void OnExecute(BattleSystem battleSystem)
     {
-        if (Affector != Context.All)
+        if (Affector != global::Reciever.All)
         {
-            var player = Affector == Context.Source ? Source : Reciever;
+            var player = Affector == global::Reciever.Source ? Source : Reciever;
             battleSystem.Helper.SetPlayerStatus(Status, player);
         }
         else

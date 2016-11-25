@@ -7,6 +7,9 @@ class TriggerOnDestroy : TargetedAction
 
     public void RelayToReference(BattleSystem battleSystem)
     {
+        if (Log)
+            LogEx.Log<TriggerOnDestroy>("Relaying...");
+
         foreach (var action in Reference.GetComponents<TargetedAction>())
         {
             action.SetSource(Source);

@@ -22,7 +22,7 @@ GameObject:
   - 114: {fileID: 114000010024768900}
   - 114: {fileID: 114000013304466204}
   m_Layer: 0
-  m_Name: Sleep
+  m_Name: SleepEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,7 +85,6 @@ MonoBehaviour:
   Log: 0
   MaxExecutions: 5
   ExpiryMessage: '{SOURCE} woke up!'
-  OnDestroyRelay: {fileID: 0}
 --- !u!114 &114000012528576344
 MonoBehaviour:
   m_ObjectHideFlags: 1

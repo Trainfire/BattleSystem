@@ -8,6 +8,7 @@ public class BattleQueue : MonoBehaviour
     [SerializeField] private bool _logRegistrations;
 
     private Queue<BaseAction> _playerCommands;
+    private Queue<BaseAction> _statusUpdates;
     private Queue<BaseAction> _weather;
     private Queue<BaseAction> _backLog;
 
@@ -19,12 +20,13 @@ public class BattleQueue : MonoBehaviour
         _master = new List<Queue<BaseAction>>();
 
         _playerCommands = new Queue<BaseAction>();
+        _statusUpdates = new Queue<BaseAction>();
         _weather = new Queue<BaseAction>();
         _backLog = new Queue<BaseAction>();
 
         // Specify order here.
         _master.Add(_playerCommands);
-        // TODO: Status Updates
+        _master.Add(_statusUpdates);
         _master.Add(_weather);
 
         Reset();
@@ -61,6 +63,14 @@ public class BattleQueue : MonoBehaviour
 
         _weather.Clear();
         _weather.Enqueue(action);
+    }
+
+    public void RegisterStatusUpdate(BaseAction action, string name)
+    {
+        if (_logRegistrations)
+            LogEx.Log<BattleQueue>("Registered status update: " + name);
+
+        _statusUpdates.Enqueue(action);
     }
 
     public void RegisterAction(Action action, string name)

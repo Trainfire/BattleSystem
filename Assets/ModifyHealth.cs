@@ -3,14 +3,14 @@ using UnityEngine;
 
 class ModifyHealth : TargetedAction
 {
-    public Context Affector;
+    public Reciever Affector;
     public int Amount;
 
     protected override void OnExecute(BattleSystem battleSystem)
     {
-        if (Affector != Context.All)
+        if (Affector != global::Reciever.All)
         {
-            var health = Affector == Context.Source ? Source.GetComponent<Health>() : Reciever.GetComponent<Health>();
+            var health = Affector == global::Reciever.Source ? Source.GetComponent<Health>() : Reciever.GetComponent<Health>();
             health.ChangeHealth(Source, Amount);
         }
         else
