@@ -25,4 +25,5 @@ public enum Status
     None,
     Poisoned,
     Asleep,
+    Paralyzed,
 }

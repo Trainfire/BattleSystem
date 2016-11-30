@@ -64,6 +64,17 @@ public class BattleSystem : MonoBehaviour
             TurnCount++;
 
             Queue.Reset();
+
+            // TODO: Temporary way of registering any status effects for a new turn.
+            Players.ForEach(x =>
+            {
+                if (x.StatusEffect != null)
+                {
+                    Debug.LogFormat("Registering status update for '{0}'", x.name);
+                    Queue.RegisterStatusUpdate(x.StatusEffect, "Poison");
+                }
+            });
+
             Queue.RegisterWeather(Weather.Current);
 
             if (CommandsDepleted != null)

@@ -186,7 +186,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 354565680}
   - 114: {fileID: 354565679}
-  - 114: {fileID: 354565682}
   m_Layer: 0
   m_Name: Player One
   m_TagString: Untagged
@@ -221,20 +220,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
---- !u!114 &354565682
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 354565678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38383e3981e5990498bd932bcfc3b1c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Chance: 0
-  OnFailAction: {fileID: 114000014238621672, guid: d49677bc87b800548a7a512198ef1c65,
-    type: 2}
 --- !u!1 &768872336
 GameObject:
   m_ObjectHideFlags: 0
@@ -329,6 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Poison: {fileID: 1000011293771328, guid: 54b45c50eb3f70249b02d6697d2c23da, type: 2}
+  Paralysis: {fileID: 0}
   Sleep: {fileID: 1000011293771328, guid: 8773d2f0119c82345a2c0a972a415ef0, type: 2}
 --- !u!1 &2079508386
 GameObject:

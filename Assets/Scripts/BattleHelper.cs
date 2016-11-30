@@ -4,6 +4,7 @@ using System;
 public class BattleHelper : MonoBehaviour
 {
     public GameObject Poison;
+    public GameObject Paralysis;
     public GameObject Sleep;
 
     private BattleSystem _battleSystem;

@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     public Health Health { get { return _health; } }
 
     private TargetedAction _statusEffect;
+    public TargetedAction StatusEffect { get { return _statusEffect; } }
     public Status Status { get; private set; }
 
     private List<PlayerListener> _battleEntities;
