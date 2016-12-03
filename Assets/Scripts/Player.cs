@@ -53,6 +53,7 @@ public class Player : MonoBehaviour
     {
         Status = status;
 
+        // TODO: Prevent status effects from being stacked.
         if (Status == Status.None && _statusEffect != null)
         {
             Destroy(_statusEffect.gameObject);
@@ -62,6 +63,18 @@ public class Player : MonoBehaviour
             _statusEffect = action;
             _statusEffect.SetReciever(this);
         }
+    }
+
+    public bool HasCondition(ConditionType condition)
+    {
+        switch (condition)
+        {
+            case ConditionType.Paralysis: return GetComponent<ConditionParalysis>();
+            case ConditionType.Confusion: return GetComponent<ConditionConfusion>();
+            case ConditionType.Sleep: return GetComponent<ConditionSleep>();
+        }
+
+        return false;
     }
 
     public void ToggleReady()

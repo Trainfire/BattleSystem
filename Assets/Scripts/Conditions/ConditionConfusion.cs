@@ -2,31 +2,28 @@ using UnityEngine;
 using System.Collections;
 using System;
 
-public class ConditionConfusion : Condition
+[Serializable]
+public class ConfusionParameters : ConditionParameters
 {
     public float Chance;
-    public TargetedAction OnFailAction;
+}
 
-    public override string EvaluationMessage { get { return "{TARGET} is confused!"; } }
+public class ConditionConfusion : Condition
+{
+    public ConfusionParameters Parameters;
 
-    public override ConditionResult Evaluate()
+    protected override ConditionResult OnEvaluate()
     {
         var roll = UnityEngine.Random.Range(0f, 1f);
-        var passed = roll <= Chance;
+        var passed = roll <= Parameters.Chance;
 
-        TargetedAction action = null;
-        if (!passed)
+        if (passed)
         {
-            if (OnFailAction != null)
-            {
-                action = Instantiate(OnFailAction.gameObject).GetComponent<TargetedAction>();
-            }
-            else
-            {
-                Debug.LogError("OnFailAction is missing.");
-            }
+            return new ConditionResult(this, Parameters, ConditionResultType.Passed);
         }
-
-        return new ConditionResult(this, passed, action);
+        else
+        {
+            return new ConditionResult(this, Parameters, ConditionResultType.Failed);
+        }
     }
 }

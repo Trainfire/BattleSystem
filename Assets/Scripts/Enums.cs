@@ -20,6 +20,13 @@ public enum Weather
     Sandstorm,
 }
 
+public enum ConditionType
+{
+    Paralysis,
+    Confusion,
+    Sleep,
+}
+
 public enum Status
 {
     None,

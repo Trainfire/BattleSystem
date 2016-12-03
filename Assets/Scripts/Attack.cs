@@ -5,23 +5,46 @@ public class Attack : TargetedAction
     protected override void OnExecute(BattleSystem battleSystem)
     {
         // Evaluate pre attack conditions.
-        TargetedAction preAttackAction = null;
+        ConditionResult result = null;
         foreach (var condition in Source.GetComponents<Condition>())
         {
-            battleSystem.Log(BattleLogger.Format(condition.EvaluationMessage, Source, Source));
+            result = condition.Evaluate();
 
-            var result = condition.Evaluate();
-            if (!result.Passed)
+            // Show OnAdd message.
+            if (condition.IsNew)
+                battleSystem.Log(BattleLogger.Format(result.Parameters.OnAddMessage, Source, Source));
+
+            if (result.Type == ConditionResultType.Removed)
             {
-                result.Action.SetReciever(Source);
-                preAttackAction = result.Action;
-                break;
+                if (result.Parameters.OnRemoveMessage != string.Empty)
+                    battleSystem.Log(BattleLogger.Format(result.Parameters.OnRemoveMessage, Source, Source));
+
+                // TODO: Do this later?
+                Destroy(result.Condition);
+            }
+            else
+            {
+                // Show OnEvaluate message.
+                if (result.Parameters.OnEvaluateMessage != string.Empty)
+                    battleSystem.Log(BattleLogger.Format(result.Parameters.OnEvaluateMessage, Source, Source));
+
+                if (result.Type == ConditionResultType.Failed)
+                    break;
             }
         }
 
-        if (preAttackAction != null)
+        if (result != null && result.Type == ConditionResultType.Failed)
         {
-            battleSystem.Registry.RegisterAction(preAttackAction);
+            if (result.Parameters.OnFailMessage != string.Empty)
+                battleSystem.Log(BattleLogger.Format(result.Parameters.OnEvaluateMessage, Source, Source));
+
+            if (result.Parameters.OnFailAction != null)
+            {
+                // TODO: Instantiate action here.
+                var action = result.Parameters.OnFailAction;
+                action.SetReciever(Source);
+                battleSystem.Registry.RegisterAction(action);
+            }
         }
         else
         {
