@@ -7,13 +7,6 @@ public class BattleHelper : MonoBehaviour
     public GameObject Paralysis;
     public GameObject Sleep;
 
-    private BattleSystem _battleSystem;
-
-    public void Initialize(BattleSystem battleSystem)
-    {
-        _battleSystem = battleSystem;
-    }
-
     public void SetPlayerStatus(Status status, Player target)
     {
         TargetedAction instance = null;
@@ -25,8 +18,6 @@ public class BattleHelper : MonoBehaviour
         }
 
         target.SetStatus(status, instance);
-
-        _battleSystem.Queue.RegisterStatusUpdate(instance, status.ToString());
     }
 
     TargetedAction Create(GameObject prototype)

@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec84b06a9d42bb34a8421c9623e3ceff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attack: {fileID: 114000011325054062, guid: 9d891e075a8625a488b689ec6112cfca, type: 2}
+  Attack: {fileID: 114000011325054062, guid: d6ffeb08af5a92441b54ab8cb8b64053, type: 2}
   HeldItem: {fileID: 0}
   Ability: {fileID: 0}
 --- !u!4 &354565680
@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Poison: {fileID: 1000011293771328, guid: 54b45c50eb3f70249b02d6697d2c23da, type: 2}
-  Paralysis: {fileID: 0}
+  Paralysis: {fileID: 1000011293771328, guid: d49677bc87b800548a7a512198ef1c65, type: 2}
   Sleep: {fileID: 1000011293771328, guid: 8773d2f0119c82345a2c0a972a415ef0, type: 2}
 --- !u!1 &2079508386
 GameObject:
@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec84b06a9d42bb34a8421c9623e3ceff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attack: {fileID: 114000011325054062, guid: 63ad95f64ced2114885dc44153fce9bb, type: 2}
+  Attack: {fileID: 114000011325054062, guid: 9d891e075a8625a488b689ec6112cfca, type: 2}
   HeldItem: {fileID: 0}
   Ability: {fileID: 0}
 --- !u!4 &2079508388

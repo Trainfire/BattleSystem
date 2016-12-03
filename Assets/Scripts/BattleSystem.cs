@@ -22,13 +22,13 @@ public class BattleSystem : MonoBehaviour
     void Awake()
     {
         Players = new List<Player>();
+
         Queue = gameObject.GetComponent<BattleQueue>();
+        Queue.Initialize(this);
 
         Helper = gameObject.GetComponent<BattleHelper>();
-        Helper.Initialize(this);
 
         Weather = gameObject.GetComponent<BattleWeather>();
-        Weather.Changed += OnWeatherChanged;
     }
 
     public void RegisterPlayer(Player player)
@@ -64,18 +64,7 @@ public class BattleSystem : MonoBehaviour
             TurnCount++;
 
             Queue.Reset();
-
-            // TODO: Temporary way of registering any status effects for a new turn.
-            Players.ForEach(x =>
-            {
-                if (x.StatusEffect != null)
-                {
-                    Debug.LogFormat("Registering status update for '{0}'", x.name);
-                    Queue.RegisterStatusUpdate(x.StatusEffect, "Poison");
-                }
-            });
-
-            Queue.RegisterWeather(Weather.Current);
+            //Queue.RegisterWeather(Weather.Current);
 
             if (CommandsDepleted != null)
                 CommandsDepleted.Invoke(this);
@@ -93,18 +82,6 @@ public class BattleSystem : MonoBehaviour
     void OnPlayerHealthChanged(HealthChangeEvent obj)
     {
         Queue.RegisterAction(UpdateHealth.Create(obj));
-    }
-
-    void OnWeatherChanged(BattleWeather weather)
-    {
-        if (weather.Current != null)
-        {
-            Queue.RegisterWeather(weather.Current);
-        }
-        else
-        {
-            Queue.ClearWeather();
-        }
     }
 
     void LateUpdate()
