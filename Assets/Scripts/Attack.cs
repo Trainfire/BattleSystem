@@ -21,7 +21,7 @@ public class Attack : TargetedAction
 
         if (preAttackAction != null)
         {
-            battleSystem.Queue.RegisterAction(preAttackAction);
+            battleSystem.Registry.RegisterAction(preAttackAction);
         }
         else
         {

@@ -52,7 +52,7 @@ public class TargetedAction : BaseAction
             {
                 action.SetSource(Source);
                 action.SetReciever(Reciever);
-                battleSystem.Queue.RegisterAction(action);
+                battleSystem.Registry.RegisterAction(action);
             }
         }
     }

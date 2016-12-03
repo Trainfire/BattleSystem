@@ -10,10 +10,13 @@ public class BattleSystem : MonoBehaviour
 
     public event Action<BattleSystem> CommandsDepleted;
 
+    public BattleRegistry Registry { get; private set; }
     public BattleHelper Helper { get; private set; }
-    public BattleQueue Queue { get; private set; }
     public BattleWeather Weather { get; private set; }
     public List<Player> Players { get; private set; }
+
+    private BattleQueue _queue;
+
     public int TurnCount { get; private set; }
 
     public bool AutoReadyPlayers { get { return _autoReadyPlayers; } }
@@ -23,8 +26,10 @@ public class BattleSystem : MonoBehaviour
     {
         Players = new List<Player>();
 
-        Queue = gameObject.GetComponent<BattleQueue>();
-        Queue.Initialize(this);
+        Registry = gameObject.GetComponent<BattleRegistry>();
+
+        _queue = gameObject.GetComponent<BattleQueue>();
+        _queue.Initialize(this);
 
         Helper = gameObject.GetComponent<BattleHelper>();
 
@@ -45,12 +50,15 @@ public class BattleSystem : MonoBehaviour
     public void Log(string message, params object[] args)
     {
         if (!string.IsNullOrEmpty(message))
-            Queue.RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + message), "BattleLog");
+            Registry.RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + message), "BattleLog");
     }
 
+    /// <summary>
+    /// Do not call directly except for Editor purposes.
+    /// </summary>
     public void Continue()
     {
-        var next = Queue.Dequeue();
+        var next = _queue.Dequeue();
 
         if (next != null)
         {
@@ -61,13 +69,12 @@ public class BattleSystem : MonoBehaviour
         {
             LogEx.Log<BattleSystem>("No more battle actions left to execute.");
 
-            TurnCount++;
-
-            Queue.Reset();
-            //Queue.RegisterWeather(Weather.Current);
+            _queue.Reset();
 
             if (CommandsDepleted != null)
                 CommandsDepleted.Invoke(this);
+
+            TurnCount++;
         }
     }
 
@@ -81,7 +88,7 @@ public class BattleSystem : MonoBehaviour
 
     void OnPlayerHealthChanged(HealthChangeEvent obj)
     {
-        Queue.RegisterAction(UpdateHealth.Create(obj));
+        Registry.RegisterAction(UpdateHealth.Create(obj));
     }
 
     void LateUpdate()

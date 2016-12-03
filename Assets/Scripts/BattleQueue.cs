@@ -34,30 +34,50 @@ public class BattleQueue : MonoBehaviour
 
     private BattleQueueWrapper _playerCommands;
     private BattleQueueWrapper _statusUpdates;
-    private BattleQueueWrapper _weather;
+    private BattleQueueWrapper _weatherUpdates;
     private BattleQueueWrapper _backLog;
 
     private Queue<BattleQueueWrapper> _queues;
-
-    private int _index;
 
     private BattleSystem _battleSystem;
 
     public void Initialize(BattleSystem battleSystem)
     {
         _battleSystem = battleSystem;
+        _battleSystem.Registry.ActionRegistered += OnActionRegistered;
 
         _queues = new Queue<BattleQueueWrapper>();
 
         _playerCommands = new BattleQueueWrapper(BattleQueueType.PlayerCommand);
         _statusUpdates = new BattleQueueWrapper(BattleQueueType.StatusUpdate);
-        _weather = new BattleQueueWrapper(BattleQueueType.Weather);
+        _weatherUpdates = new BattleQueueWrapper(BattleQueueType.Weather);
         _backLog = new BattleQueueWrapper(BattleQueueType.Normal);
 
         _statusUpdates.OnActivation = OnEnterStatusUpdate;
-        _weather.OnActivation = OnEnterWeather;
+        _weatherUpdates.OnActivation = OnEnterWeather;
 
         Reset();
+    }
+
+    void OnActionRegistered(BaseAction action, BattleQueueType type)
+    {
+        switch (type)
+        {
+            case BattleQueueType.Normal:
+                _backLog.Queue.Enqueue(action);
+                break;
+            case BattleQueueType.PlayerCommand:
+                _playerCommands.Queue.Enqueue(action);
+                LogEx.Log<BattleQueue>("Registered player command '" + action.GetType() + "' targeting '" + (action as TargetedAction).Reciever.name + "'");
+                break;
+            case BattleQueueType.StatusUpdate:
+                _statusUpdates.Queue.Enqueue(action);
+                break;
+            case BattleQueueType.Weather:
+                _weatherUpdates.Queue.Clear();
+                _weatherUpdates.Queue.Enqueue(action);
+                break;
+        }
     }
 
     public void Reset()
@@ -67,7 +87,7 @@ public class BattleQueue : MonoBehaviour
         // Specify order here.
         _queues.Enqueue(_playerCommands);
         _queues.Enqueue(_statusUpdates);
-        _queues.Enqueue(_weather);
+        _queues.Enqueue(_weatherUpdates);
     }
 
     public BaseAction Dequeue()
@@ -105,14 +125,6 @@ public class BattleQueue : MonoBehaviour
                 return next != null && next.Queue.Count != 0 ? next.Queue.Dequeue() : null;
             }
         }
-    }
-
-    public void ClearWeather()
-    {
-        if (_logRegistrations)
-            LogEx.Log<BattleQueue>("Weather cleared.");
-
-        _weather.Queue.Clear();
     }
 
     #region State Callbacks
@@ -157,8 +169,8 @@ public class BattleQueue : MonoBehaviour
                 _statusUpdates.Queue.Enqueue(action);
                 break;
             case BattleQueueType.Weather:
-                _weather.Queue.Clear();
-                _weather.Queue.Enqueue(action);
+                _weatherUpdates.Queue.Clear();
+                _weatherUpdates.Queue.Enqueue(action);
                 break;
         }
     }

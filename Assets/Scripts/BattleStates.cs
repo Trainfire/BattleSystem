@@ -120,7 +120,7 @@ public class BattleStateInput : BattleState
             attack.SetSource(player);
             attack.SetReciever(target);
 
-            BattleSystem.Queue.RegisterPlayerCommand(attack);
+            BattleSystem.Registry.RegisterPlayerCommand(attack);
         });
     }
 }

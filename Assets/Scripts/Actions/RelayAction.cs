@@ -8,7 +8,7 @@ public class RelayAction : BaseAction
         foreach (var action in GetComponents<BaseAction>())
         {
             if (action != this)
-                battleSystem.Queue.RegisterAction(action);
+                battleSystem.Registry.RegisterAction(action);
         }
     }
 }
