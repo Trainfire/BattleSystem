@@ -3,15 +3,16 @@ using UnityEngine;
 
 class Lifetime : TargetedAction
 {
+    public bool NeverExpires;
     public int MaxExecutions;
     public string ExpiryMessage;
 
-    private int _executionsTotal;
-
-    void Awake()
+    public bool Expired
     {
-        MaxExecutions = Mathf.Clamp(MaxExecutions, 1, MaxExecutions);
+        get { return NeverExpires ? false : _executionsTotal >= MaxExecutions; }
     }
+
+    private int _executionsTotal;
 
     protected override void OnExecute(BattleSystem battleSystem)
     {
@@ -19,11 +20,10 @@ class Lifetime : TargetedAction
 
         TriggerCompletion();
 
-        if (_executionsTotal >= MaxExecutions)
+        if (Expired)
         {
             LogEx.Log<Lifetime>(name + "'s life expired.");
             battleSystem.Log(ExpiryMessage);
-            Destroy(gameObject);
         }
     }
 }

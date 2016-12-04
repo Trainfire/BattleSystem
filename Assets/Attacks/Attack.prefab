@@ -54,6 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba326fc5222bd148b9a39e6ebe30004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Log: 0
   Affector: 0
   Amount: -5
 --- !u!114 &114000011325054062
@@ -67,6 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c48e2b43f4109764d92cfeede817031a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Log: 0
 --- !u!114 &114000011796401224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -78,6 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8789afbe15b4114f8881703f75c42c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Log: 0
   Message: '{SOURCE} was hurt by recoil!'
 --- !u!114 &114000013428283780
 MonoBehaviour:
@@ -90,5 +93,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ba326fc5222bd148b9a39e6ebe30004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Log: 0
   Affector: 1
   Amount: -10

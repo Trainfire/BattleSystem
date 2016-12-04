@@ -1,8 +1,6 @@
 using UnityEngine;
 using System;
-using System.Collections.Generic;
 
-[RequireComponent(typeof(BattleQueue), typeof(BattleWeather))]
 public class BattleSystem : MonoBehaviour
 {
     [SerializeField] private bool _autoReadyPlayers;
@@ -77,6 +75,9 @@ public class BattleSystem : MonoBehaviour
     void OnActionExecutionComplete(BaseAction action)
     {
         action.Completed -= OnActionExecutionComplete;
+
+        if (action.IsGarbage)
+            Destroy(action.gameObject);
 
         if (!_enableManualStepping)
             Continue();

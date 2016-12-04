@@ -49,6 +49,8 @@ public class Attack : TargetedAction
         else
         {
             battleSystem.Log(Source.name + " used {0}!", name.Replace("(Clone)", ""));
+
+            // Relay to other attached components.
             Relay(battleSystem);
         }
 

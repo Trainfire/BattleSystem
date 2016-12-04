@@ -7,10 +7,16 @@ public abstract class BaseAction : MonoBehaviour
 
     public event Action<BaseAction> Completed;
 
+    public virtual bool IsGarbage { get { return true; } }
+
+    public bool Executed { get; private set; }
+
     private BattleSystem _battleSystem;
 
     public virtual void Execute(BattleSystem battleSystem)
     {
+        Executed = true;
+
         if (Log)
             LogEx.Log<BaseAction>(name + " executed.");
 

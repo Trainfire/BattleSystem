@@ -1,18 +1,43 @@
 using UnityEngine;
 using System;
+using System.Collections.Generic;
 
 public class TargetedAction : BaseAction
 {
     public Player Source { get; private set; }
     public Player Reciever { get; private set; }
 
-    protected override void OnExecute(BattleSystem battleSystem) { }
+    private List<TargetedAction> _attachedComponents;
 
-    //public void Initialize(BattleSystem battleSystem)
-    //{
-    //    BattleSystem = battleSystem;
-    //    OnInitialize();
-    //}
+    public override bool IsGarbage
+    {
+        get
+        {
+            var lifetime = GetComponent<Lifetime>();
+            if (lifetime == null)
+            {
+                return _attachedComponents.TrueForAll(x => x.Executed);
+            }
+            else
+            {
+                // ???
+                return lifetime.Expired;
+            }
+        }
+    }
+
+    void Awake()
+    {
+        _attachedComponents = new List<TargetedAction>();
+
+        foreach (var action in GetComponents<TargetedAction>())
+        {
+            if (action != this)
+                _attachedComponents.Add(action);
+        }
+    }
+
+    protected override void OnExecute(BattleSystem battleSystem) { }
 
     public void SetSource(Player source)
     {

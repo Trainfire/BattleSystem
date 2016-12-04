@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec84b06a9d42bb34a8421c9623e3ceff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attack: {fileID: 114000011325054062, guid: 2f3910380fe2a79459f4d9bc95ee1661, type: 2}
+  Attack: {fileID: 114000011325054062, guid: 9d891e075a8625a488b689ec6112cfca, type: 2}
   HeldItem: {fileID: 0}
   Ability: {fileID: 0}
 --- !u!4 &354565680
@@ -234,6 +234,7 @@ GameObject:
   - 114: {fileID: 768872341}
   - 114: {fileID: 768872342}
   - 114: {fileID: 768872343}
+  - 114: {fileID: 768872344}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -320,7 +321,8 @@ MonoBehaviour:
     OnEvaluateMessage: '{TARGET} is confused!'
     OnFailMessage: 
     OnRemoveMessage: '{TARGET} snapped out of their confusion!'
-    OnFailAction: {fileID: 0}
+    OnFailAction: {fileID: 114000014238621672, guid: 1cc3d9e847e0de04ea422efab433e6d3,
+      type: 2}
     OnRemoveAction: {fileID: 0}
     MinTurns: 3
     MaxTurns: 5
@@ -356,6 +358,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _logRegistrations: 0
+--- !u!114 &768872344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 768872336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d4462c56a947640a7484edb0595f27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2079508386
 GameObject:
   m_ObjectHideFlags: 0
