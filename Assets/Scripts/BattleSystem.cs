@@ -13,9 +13,9 @@ public class BattleSystem : MonoBehaviour
     public BattleRegistry Registry { get; private set; }
     public BattleHelper Helper { get; private set; }
     public BattleWeather Weather { get; private set; }
-    public List<Player> Players { get; private set; }
 
     private BattleQueue _queue;
+    private BattlePlayerHandler _playerHandler;
 
     public int TurnCount { get; private set; }
 
@@ -24,26 +24,22 @@ public class BattleSystem : MonoBehaviour
 
     void Awake()
     {
-        Players = new List<Player>();
-
         Registry = gameObject.GetComponent<BattleRegistry>();
+        Registry.PlayerAdded += OnPlayerAdded;
 
         _queue = gameObject.GetComponent<BattleQueue>();
         _queue.Initialize(this);
+
+        _playerHandler = gameObject.GetComponent<BattlePlayerHandler>();
+        _playerHandler.Initialize(this);
 
         Helper = gameObject.GetComponent<BattleHelper>();
 
         Weather = gameObject.GetComponent<BattleWeather>();
     }
 
-    public void RegisterPlayer(Player player)
+    void OnPlayerAdded(Player player)
     {
-        LogEx.Log<BattleSystem>("Registered player: '{0}'", player.name);
-
-        Players.Add(player);
-
-        player.GetComponent<Health>().Changed += OnPlayerHealthChanged;
-
         player.BattleEntities.ForEach(x => x.Initialize(this));
     }
 
@@ -84,11 +80,6 @@ public class BattleSystem : MonoBehaviour
 
         if (!_enableManualStepping)
             Continue();
-    }
-
-    void OnPlayerHealthChanged(HealthChangeEvent obj)
-    {
-        Registry.RegisterAction(UpdateHealth.Create(obj));
     }
 
     void LateUpdate()

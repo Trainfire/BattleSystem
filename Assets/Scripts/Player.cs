@@ -53,7 +53,6 @@ public class Player : MonoBehaviour
     {
         Status = status;
 
-        // TODO: Prevent status effects from being stacked.
         if (Status == Status.None && _statusEffect != null)
         {
             Destroy(_statusEffect.gameObject);

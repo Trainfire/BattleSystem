@@ -90,30 +90,30 @@ public class BattleStateInput : BattleState
 
     public override void OnStart()
     {
-        BattleSystem.Players.ForEach(x => x.ReadyStateChanged += OnPlayerReadyStateChanged);
+        BattleSystem.Registry.Players.ForEach(x => x.ReadyStateChanged += OnPlayerReadyStateChanged);
 
-        LogEx.Log<BattleStates>("Waiting for {0} players.", BattleSystem.Players.Count);
+        LogEx.Log<BattleStates>("Waiting for {0} players.", BattleSystem.Registry.Players.Count);
 
         if (BattleSystem.AutoReadyPlayers)
-            BattleSystem.Players.ForEach(x => x.ToggleReady());
+            BattleSystem.Registry.Players.ForEach(x => x.ToggleReady());
     }
 
     void OnPlayerReadyStateChanged(Player player)
     {
         LogEx.Log<BattleStates>("{0} ready state changed to: {1}", player.name, player.IsReady);
 
-        if (BattleSystem.Players.TrueForAll(x => x.IsReady))
+        if (BattleSystem.Registry.Players.TrueForAll(x => x.IsReady))
             End();
     }
 
     public override void OnEnd()
     {
-        BattleSystem.Players.ForEach(player =>
+        BattleSystem.Registry.Players.ForEach(player =>
         {
             player.ReadyStateChanged -= OnPlayerReadyStateChanged;
             player.ResetReady();
 
-            var target = BattleSystem.Players.Where(x => x != player).First();
+            var target = BattleSystem.Registry.Players.Where(x => x != player).First();
 
             // TEMP.
             var attack = GameObject.Instantiate(player.Attack);

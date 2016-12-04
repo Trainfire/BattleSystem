@@ -9,7 +9,7 @@ public class Root : MonoBehaviour
 
         foreach (var player in FindObjectsOfType<Player>())
         {
-            battleSystem.RegisterPlayer(player);
+            battleSystem.Registry.RegisterPlayer(player);
         }
 
         var battleStates = gameObject.AddComponent<BattleStates>();

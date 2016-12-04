@@ -15,7 +15,7 @@ class ModifyCondition : TargetedAction
         }
         else
         {
-            battleSystem.Players.ForEach(x => battleSystem.Helper.SetCondition(Condition, x));
+            battleSystem.Registry.Players.ForEach(x => battleSystem.Helper.SetCondition(Condition, x));
         }
 
         TriggerCompletion();
