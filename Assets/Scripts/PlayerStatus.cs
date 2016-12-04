@@ -96,6 +96,10 @@ public class PlayerStatus : MonoBehaviour
 
             condition.Removed -= RemoveCondition;
 
+            // ???
+            if (condition.Type == ConditionType.Paralysis || condition.Type == ConditionType.Sleep)
+                Current = Status.None;
+
             if (ConditionChanged != null)
                 ConditionChanged.Invoke(new ConditionChangeEvent(_player, condition.Type, AddRemoveType.Removed));
         }
