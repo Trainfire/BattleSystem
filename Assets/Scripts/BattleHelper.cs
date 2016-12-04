@@ -23,8 +23,6 @@ public class BattleHelper : MonoBehaviour
 
     public bool SetCondition(ConditionType condition, Player target)
     {
-        // TODO: Test.
-
         bool isStatus = condition == ConditionType.Paralysis || condition == ConditionType.Sleep;
 
         if (isStatus && target.Status == Status.None)
@@ -58,6 +56,8 @@ public class BattleHelper : MonoBehaviour
 
             return true;
         }
+
+        LogEx.Log<BattleHelper>("Failed to set condition to: " + condition);
 
         return false;
     }

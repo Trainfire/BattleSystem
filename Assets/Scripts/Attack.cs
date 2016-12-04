@@ -38,10 +38,10 @@ public class Attack : TargetedAction
             if (result.Parameters.OnFailMessage != string.Empty)
                 battleSystem.Log(BattleLogger.Format(result.Parameters.OnEvaluateMessage, Source, Source));
 
+            // Instantiate OnFailAction and register action.
             if (result.Parameters.OnFailAction != null)
             {
-                // TODO: Instantiate action here.
-                var action = result.Parameters.OnFailAction;
+                var action = Instantiate(result.Parameters.OnFailAction);
                 action.SetReciever(Source);
                 battleSystem.Registry.RegisterAction(action);
             }

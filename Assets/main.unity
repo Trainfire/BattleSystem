@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec84b06a9d42bb34a8421c9623e3ceff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attack: {fileID: 114000011325054062, guid: a13afd34faf67da43b2375410b4d9a0b, type: 2}
+  Attack: {fileID: 114000011325054062, guid: 2f3910380fe2a79459f4d9bc95ee1661, type: 2}
   HeldItem: {fileID: 0}
   Ability: {fileID: 0}
 --- !u!4 &354565680
@@ -316,13 +316,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Poison: {fileID: 1000011293771328, guid: 54b45c50eb3f70249b02d6697d2c23da, type: 2}
   ConfusionParameters:
-    OnAddMessage: 
-    OnEvaluateMessage: 
+    OnAddMessage: '{TARGET} became confused!'
+    OnEvaluateMessage: '{TARGET} is confused!'
     OnFailMessage: 
-    OnRemoveMessage: 
+    OnRemoveMessage: '{TARGET} snapped out of their confusion!'
     OnFailAction: {fileID: 0}
     OnRemoveAction: {fileID: 0}
-    Chance: 0
+    MinTurns: 3
+    MaxTurns: 5
+    ChanceRemoval: 0.2
+    ChanceSelfDamage: 0.5
   ParalysisParameters:
     OnAddMessage: 
     OnEvaluateMessage: 

@@ -5,7 +5,10 @@ using System;
 [Serializable]
 public class ConfusionParameters : ConditionParameters
 {
-    public float Chance;
+    public int MinTurns;
+    public int MaxTurns;
+    public float ChanceRemoval;
+    public float ChanceSelfDamage;
 }
 
 public class ConditionConfusion : Condition
@@ -14,16 +17,26 @@ public class ConditionConfusion : Condition
 
     protected override ConditionResult OnEvaluate()
     {
-        var roll = UnityEngine.Random.Range(0f, 1f);
-        var passed = roll <= Parameters.Chance;
-
-        if (passed)
+        if (EvaluationCount >= Parameters.MinTurns && EvaluationCount <= Parameters.MaxTurns)
         {
-            return new ConditionResult(this, Parameters, ConditionResultType.Passed);
+            var removalRoll = UnityEngine.Random.Range(0f, 1f);
+
+            if (removalRoll <= Parameters.ChanceRemoval)
+                return new ConditionResult(this, Parameters, ConditionResultType.Removed);
+        }
+        else if (EvaluationCount >= Parameters.MaxTurns)
+        {
+            return new ConditionResult(this, Parameters, ConditionResultType.Removed);
+        }
+
+        var selfDamageRoll = UnityEngine.Random.Range(0f, 1f);
+        if (selfDamageRoll <= Parameters.ChanceSelfDamage)
+        {
+            return new ConditionResult(this, Parameters, ConditionResultType.Failed);
         }
         else
         {
-            return new ConditionResult(this, Parameters, ConditionResultType.Failed);
+            return new ConditionResult(this, Parameters, ConditionResultType.Passed);
         }
     }
 }
