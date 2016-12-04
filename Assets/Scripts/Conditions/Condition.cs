@@ -4,10 +4,8 @@ using System;
 [Serializable]
 public class ConditionParameters
 {
-    public string OnAddMessage;
     public string OnEvaluateMessage;
     public string OnFailMessage;
-    public string OnRemoveMessage;
 
     public TargetedAction OnFailAction;
     public TargetedAction OnRemoveAction;
@@ -36,6 +34,9 @@ public class ConditionResult
 
 public abstract class Condition : MonoBehaviour
 {
+    public event Action<Condition> Removed;
+
+    public abstract ConditionType Type { get; }
     public bool IsNew { get { return EvaluationCount <= 1; } }
 
     protected int EvaluationCount { get; private set; }
@@ -44,6 +45,12 @@ public abstract class Condition : MonoBehaviour
     {
         EvaluationCount++;
         return OnEvaluate();
+    }
+
+    public void Remove()
+    {
+        if (Removed != null)
+            Removed.Invoke(this);
     }
 
     protected abstract ConditionResult OnEvaluate();

@@ -4,26 +4,29 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour
 {
+    public event Action<StatusChangeEvent> StatusChanged;
+    public event Action<ConditionChangeEvent> ConditionChanged;
+
     public event Action<Player> ReadyStateChanged;
+
     public bool IsReady { get; private set; }
 
     public TargetedAction Attack;
     public GameObject HeldItem;
     public GameObject Ability;
 
-    private Health _health;
-    public Health Health { get { return _health; } }
-
-    private TargetedAction _statusEffect;
-    public TargetedAction StatusEffect { get { return _statusEffect; } }
-    public Status Status { get; private set; }
+    public Health Health { get; private set; }
+    public PlayerStatus Status { get; private set; }
 
     private List<PlayerListener> _battleEntities;
     public List<PlayerListener> BattleEntities { get { return _battleEntities; } }
 
     void Awake()
     {
-        _health = gameObject.AddComponent<Health>();
+        Health = gameObject.AddComponent<Health>();
+
+        Status = gameObject.AddComponent<PlayerStatus>();
+        Status.Initialize(this);
 
         _battleEntities = new List<PlayerListener>();
         RegisterListener(HeldItem);
@@ -47,33 +50,6 @@ public class Player : MonoBehaviour
             battleEntity.SetPlayer(this);
             _battleEntities.Add(battleEntity);
         }
-    }
-
-    public void SetStatus(Status status, TargetedAction action)
-    {
-        Status = status;
-
-        if (Status == Status.None && _statusEffect != null)
-        {
-            Destroy(_statusEffect.gameObject);
-        }
-        else if (action != null)
-        {
-            _statusEffect = action;
-            _statusEffect.SetReciever(this);
-        }
-    }
-
-    public bool HasCondition(ConditionType condition)
-    {
-        switch (condition)
-        {
-            case ConditionType.Paralysis: return GetComponent<ConditionParalysis>();
-            case ConditionType.Confusion: return GetComponent<ConditionConfusion>();
-            case ConditionType.Sleep: return GetComponent<ConditionSleep>();
-        }
-
-        return false;
     }
 
     public void ToggleReady()

@@ -20,9 +20,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 4000013213702038}
   - 114: {fileID: 114000011325054062}
-  - 114: {fileID: 114000014041677036}
-  - 114: {fileID: 114000012398541472}
-  - 114: {fileID: 114000013675521112}
+  - 114: {fileID: 114000012059592102}
   m_Layer: 0
   m_Name: ThunderWave
   m_TagString: DontDestroyOnTrigger
@@ -55,7 +53,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Log: 0
---- !u!114 &114000012398541472
+--- !u!114 &114000012059592102
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -63,35 +61,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012589421886}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba0e11709813ad94b9b91bb8d9b3f226, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Log: 0
-  _weather: 1
---- !u!114 &114000013675521112
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012589421886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5cc129b9ae275e4aa24ad91d11bc442, type: 3}
+  m_Script: {fileID: 11500000, guid: f67cdaa52305e374cbcc5b4a80c200a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Log: 0
   Affector: 1
-  Status: 3
---- !u!114 &114000014041677036
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000012589421886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e8789afbe15b4114f8881703f75c42c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Log: 0
-  Message: '{SOURCE} kicked up a sandstorm!'
+  Condition: 0

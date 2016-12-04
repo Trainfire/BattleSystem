@@ -10,14 +10,10 @@ public class Attack : TargetedAction
         {
             result = condition.Evaluate();
 
-            // Show OnAdd message.
-            if (condition.IsNew)
-                battleSystem.Log(BattleLogger.Format(result.Parameters.OnAddMessage, Source, Source));
-
             if (result.Type == ConditionResultType.Removed)
             {
-                if (result.Parameters.OnRemoveMessage != string.Empty)
-                    battleSystem.Log(BattleLogger.Format(result.Parameters.OnRemoveMessage, Source, Source));
+                //Source.Status.RemoveCondition(result.Condition.Type);
+                result.Condition.Remove();
 
                 // TODO: Do this later?
                 Destroy(result.Condition);

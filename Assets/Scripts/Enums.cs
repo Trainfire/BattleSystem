@@ -34,3 +34,9 @@ public enum Status
     Asleep,
     Paralyzed,
 }
+
+public enum AddRemoveType
+{
+    Added,
+    Removed,
+}

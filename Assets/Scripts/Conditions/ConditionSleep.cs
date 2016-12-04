@@ -14,6 +14,8 @@ public class ConditionSleep : Condition
 {
     public SleepParameters Parameters;
 
+    public override ConditionType Type { get { return ConditionType.Sleep; } }
+
     protected override ConditionResult OnEvaluate()
     {
         if (EvaluationCount >= Parameters.MinTurns && EvaluationCount <= Parameters.MaxTurns)

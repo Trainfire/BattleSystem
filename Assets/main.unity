@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec84b06a9d42bb34a8421c9623e3ceff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attack: {fileID: 114000011325054062, guid: 9d891e075a8625a488b689ec6112cfca, type: 2}
+  Attack: {fileID: 114000011325054062, guid: a13afd34faf67da43b2375410b4d9a0b, type: 2}
   HeldItem: {fileID: 0}
   Ability: {fileID: 0}
 --- !u!4 &354565680
@@ -317,10 +317,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Poison: {fileID: 1000011293771328, guid: 54b45c50eb3f70249b02d6697d2c23da, type: 2}
   ConfusionParameters:
-    OnAddMessage: '{TARGET} became confused!'
     OnEvaluateMessage: '{TARGET} is confused!'
     OnFailMessage: 
-    OnRemoveMessage: '{TARGET} snapped out of their confusion!'
     OnFailAction: {fileID: 114000014238621672, guid: 1cc3d9e847e0de04ea422efab433e6d3,
       type: 2}
     OnRemoveAction: {fileID: 0}
@@ -329,22 +327,18 @@ MonoBehaviour:
     ChanceRemoval: 0.2
     ChanceSelfDamage: 0.5
   ParalysisParameters:
-    OnAddMessage: 
-    OnEvaluateMessage: 
-    OnFailMessage: 
-    OnRemoveMessage: 
+    OnEvaluateMessage: '{TARGET} is paralyzed...'
+    OnFailMessage: '{TARGET} was unable to move!'
     OnFailAction: {fileID: 0}
     OnRemoveAction: {fileID: 0}
-    Chance: 0
+    Chance: 0.5
   SleepParameters:
-    OnAddMessage: '{TARGET} fell asleep!'
     OnEvaluateMessage: '{TARGET} is asleep...'
     OnFailMessage: 
-    OnRemoveMessage: '{TARGET} woke up!'
     OnFailAction: {fileID: 0}
     OnRemoveAction: {fileID: 0}
-    MinTurns: 3
-    MaxTurns: 5
+    MinTurns: 1
+    MaxTurns: 1
     WakeUpChance: 1
 --- !u!114 &768872343
 MonoBehaviour:

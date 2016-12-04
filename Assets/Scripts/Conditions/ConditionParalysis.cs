@@ -12,6 +12,8 @@ public class ConditionParalysis : Condition
 {
     public ParalysisParameters Parameters;
 
+    public override ConditionType Type { get { return ConditionType.Paralysis; } }
+
     protected override ConditionResult OnEvaluate()
     {
         var roll = UnityEngine.Random.Range(0f, 1f);

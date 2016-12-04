@@ -9,50 +9,109 @@ public class BattleHelper : MonoBehaviour
     public ParalysisParameters ParalysisParameters;
     public SleepParameters SleepParameters;
 
-    public void SetPlayerStatus(Status status, Player target)
+    public bool SetPlayerStatus(Status status, Player target)
     {
-        TargetedAction instance = null;
-
-        switch (status)
+        if (target.Status.Current == Status.None)
         {
-            case Status.Poisoned: instance = Create(Poison); break;
+            TargetedAction instance = null;
+
+            switch (status)
+            {
+                case Status.Poisoned: instance = Create(Poison); break;
+            }
+
+            target.Status.SetStatus(status, instance);
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public string GetConditionAddedMessage(Player player, ConditionType condition)
+    {
+        // TODO: Remove hard-coded strings.
+        switch (condition)
+        {
+            case ConditionType.Confusion: return string.Format("{0} became confused!", player.name);
         }
 
-        target.SetStatus(status, instance);
+        return "";
+    }
+
+    public string GetConditionRemovedMessage(Player player, ConditionType condition)
+    {
+        // TODO: Remove hard-coded strings.
+        switch (condition)
+        {
+            case ConditionType.Confusion: return string.Format("{0} snapped out of their confusion!", player.name);
+            case ConditionType.Sleep: return string.Format("{0} woke up!", player.name);
+        }
+
+        return "";
+    }
+
+    public string GetStatusAddedMessage(Player player, Status status)
+    {
+        // TODO: Remove hard-coded strings.
+        switch (status)
+        {
+            case Status.Poisoned: return string.Format("{0} was poisoned!", player.name);
+            case Status.Asleep: return string.Format("{0} fell asleep!", player.name);
+            case Status.Paralyzed: return string.Format("{0} became paralyzed! They may be unable to move!", player.name);
+        }
+
+        return "";
     }
 
     public bool SetCondition(ConditionType condition, Player target)
     {
         bool isStatus = condition == ConditionType.Paralysis || condition == ConditionType.Sleep;
 
-        if (isStatus && target.Status == Status.None)
+        if (isStatus && target.Status.Current == Status.None)
         {
             switch (condition)
             {
                 case ConditionType.Paralysis:
+
                     var paralysis = target.gameObject.AddComponent<ConditionParalysis>();
                     paralysis.Parameters = ParalysisParameters;
-                    target.SetStatus(Status.Paralyzed, null);
+
+                    target.Status.SetStatus(Status.Paralyzed, null);
+                    target.Status.AddCondition(paralysis);
+
                     break;
+
                 case ConditionType.Sleep:
+
                     var sleep = target.gameObject.AddComponent<ConditionSleep>();
                     sleep.Parameters = SleepParameters;
-                    target.SetStatus(Status.Asleep, null);
+
+                    target.Status.SetStatus(Status.Asleep, null);
+                    target.Status.AddCondition(sleep);
+
                     break;
             }
 
             return true;
         }
-        else if (!target.HasCondition(condition))
+        else if (!target.Status.HasCondition(condition))
         {
+            Condition conditionComp = null;
+
             // Concurrent conditions.
             switch (condition)
             {
                 case ConditionType.Confusion:
                     var confusion = target.gameObject.AddComponent<ConditionConfusion>();
                     confusion.Parameters = ConfusionParameters;
+                    conditionComp = confusion;
                     break;
             }
+
+            target.Status.AddCondition(conditionComp);
 
             return true;
         }
