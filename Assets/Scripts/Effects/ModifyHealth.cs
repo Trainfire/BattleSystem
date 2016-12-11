@@ -1,23 +1,13 @@
 using System;
 using UnityEngine;
 
-class ModifyHealth : TargetedAction
+class ModifyHealth : EffectBase
 {
-    public Reciever Affector;
+    // TODO: Support percentage changes and absolute values.
     public int Amount;
 
-    protected override void OnExecute(BattleSystem battleSystem)
+    protected override void OnApplyEffect(BattleSystem battleSystem, Character character)
     {
-        if (Affector != global::Reciever.All)
-        {
-            var health = Affector == global::Reciever.Source ? Source.GetComponent<Health>() : Reciever.GetComponent<Health>();
-            health.ChangeHealth(Source, Amount);
-        }
-        else
-        {
-            battleSystem.Registry.ActiveCharacters.ForEach(x => x.Health.ChangeHealth(Source, Amount));
-        }
-
-        TriggerCompletion();
+        character.Health.ChangeHealth(Source, Amount);
     }
 }

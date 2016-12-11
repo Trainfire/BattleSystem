@@ -1,23 +1,12 @@
 using System;
 using UnityEngine;
 
-class ModifyStatus : TargetedAction
+class ModifyStatus : EffectBase
 {
-    public Reciever Affector;
     public Status Status;
 
-    protected override void OnExecute(BattleSystem battleSystem)
+    protected override void OnApplyEffect(BattleSystem battleSystem, Character character)
     {
-        if (Affector != global::Reciever.All)
-        {
-            var player = Affector == global::Reciever.Source ? Source : Reciever;
-            battleSystem.Helper.SetPlayerStatus(Status, player);
-        }
-        else
-        {
-            battleSystem.Registry.ActiveCharacters.ForEach(x => battleSystem.Helper.SetPlayerStatus(Status, x));
-        }
-
-        TriggerCompletion();
+        battleSystem.Helper.SetPlayerStatus(Status, character);
     }
 }

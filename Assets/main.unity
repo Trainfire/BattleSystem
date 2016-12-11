@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276ee1344f01ad0438b856a8ce96d18a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Attack: {fileID: 114000011325054062, guid: 63ad95f64ced2114885dc44153fce9bb, type: 2}
+  Attack: {fileID: 114000011325054062, guid: b51194d706532a948895d0d4b3aa489b, type: 2}
   HeldItem: {fileID: 0}
   Ability: {fileID: 0}
 --- !u!4 &1564956827

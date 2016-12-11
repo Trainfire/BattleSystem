@@ -1,23 +1,13 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-class ModifyCondition : TargetedAction
+class ModifyCondition : EffectBase
 {
-    public Reciever Affector;
     public ConditionType Condition;
 
-    protected override void OnExecute(BattleSystem battleSystem)
+    protected override void OnApplyEffect(BattleSystem battleSystem, Character character)
     {
-        if (Affector != global::Reciever.All)
-        {
-            var player = Affector == global::Reciever.Source ? Source : Reciever;
-            battleSystem.Helper.SetCondition(Condition, player);
-        }
-        else
-        {
-            battleSystem.Registry.ActiveCharacters.ForEach(x => battleSystem.Helper.SetCondition(Condition, x));
-        }
-
-        TriggerCompletion();
+        battleSystem.Helper.SetCondition(Condition, character);
     }
 }
