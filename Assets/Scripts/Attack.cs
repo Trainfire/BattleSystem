@@ -31,8 +31,9 @@ public class Attack : TargetedAction
 
         if (result != null && result.Type == ConditionResultType.Failed)
         {
+            // Show OnFail message.
             if (result.Parameters.OnFailMessage != string.Empty)
-                battleSystem.Log(BattleLogger.Format(result.Parameters.OnEvaluateMessage, Source, Source));
+                battleSystem.Log(BattleLogger.Format(result.Parameters.OnFailMessage, Source, Source));
 
             // Instantiate OnFailAction and register action.
             if (result.Parameters.OnFailAction != null)
