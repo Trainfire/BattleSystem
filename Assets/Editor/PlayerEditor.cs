@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections;
 
-[CustomEditor(typeof(Player))]
+[CustomEditor(typeof(Character))]
 public class PlayerEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -10,6 +10,6 @@ public class PlayerEditor : Editor
         base.OnInspectorGUI();
 
         if (GUILayout.Button("Ready"))
-            (target as Player).ToggleReady();
+            (target as Character).ToggleReady();
     }
 }

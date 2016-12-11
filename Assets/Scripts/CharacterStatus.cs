@@ -5,31 +5,31 @@ using System.Linq;
 
 public class StatusChangeEvent
 {
-    public Player Player { get; private set; }
+    public Character Character { get; private set; }
     public Status Status { get; private set; }
 
-    public StatusChangeEvent(Player player, Status status)
+    public StatusChangeEvent(Character character, Status status)
     {
-        Player = player;
+        Character = character;
         Status = status;
     }
 }
 
 public class ConditionChangeEvent
 {
-    public Player Player { get; private set; }
+    public Character Character { get; private set; }
     public ConditionType Condition { get; private set; }
     public AddRemoveType Type { get; private set; }
 
-    public ConditionChangeEvent(Player player, ConditionType condition, AddRemoveType type)
+    public ConditionChangeEvent(Character player, ConditionType condition, AddRemoveType type)
     {
-        Player = player;
+        Character = player;
         Condition = condition;
         Type = type;
     }
 }
 
-public class PlayerStatus : MonoBehaviour
+public class CharacterStatus : MonoBehaviour
 {
     public event Action<StatusChangeEvent> StatusChanged;
     public event Action<ConditionChangeEvent> ConditionChanged;
@@ -39,11 +39,11 @@ public class PlayerStatus : MonoBehaviour
     public Status Current { get; private set; }
 
     private List<Condition> _conditions;
-    private Player _player;
+    private Character _character;
 
-    public void Initialize(Player player)
+    public void Initialize(Character character)
     {
-        _player = player;
+        _character = character;
 
         _conditions = new List<Condition>();
     }
@@ -59,11 +59,11 @@ public class PlayerStatus : MonoBehaviour
         else if (action != null)
         {
             _statusEffect = action;
-            _statusEffect.SetReciever(_player);
+            _statusEffect.SetReciever(_character);
         }
 
         if (StatusChanged != null)
-            StatusChanged.Invoke(new StatusChangeEvent(_player, status));
+            StatusChanged.Invoke(new StatusChangeEvent(_character, status));
     }
 
     public void AddCondition(Condition condition)
@@ -79,7 +79,7 @@ public class PlayerStatus : MonoBehaviour
             condition.Removed += RemoveCondition;
 
             if (ConditionChanged != null)
-                ConditionChanged.Invoke(new ConditionChangeEvent(_player, condition.Type, AddRemoveType.Added));
+                ConditionChanged.Invoke(new ConditionChangeEvent(_character, condition.Type, AddRemoveType.Added));
         }
     }
 
@@ -101,7 +101,7 @@ public class PlayerStatus : MonoBehaviour
                 Current = Status.None;
 
             if (ConditionChanged != null)
-                ConditionChanged.Invoke(new ConditionChangeEvent(_player, condition.Type, AddRemoveType.Removed));
+                ConditionChanged.Invoke(new ConditionChangeEvent(_character, condition.Type, AddRemoveType.Removed));
         }
     }
 

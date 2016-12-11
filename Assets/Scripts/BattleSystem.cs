@@ -13,7 +13,7 @@ public class BattleSystem : MonoBehaviour
     public BattleWeather Weather { get; private set; }
 
     private BattleQueue _queue;
-    private BattlePlayerHandler _playerHandler;
+    private BattleCharacterHandler _playerHandler;
 
     public int TurnCount { get; private set; }
 
@@ -28,7 +28,7 @@ public class BattleSystem : MonoBehaviour
         _queue = gameObject.GetComponent<BattleQueue>();
         _queue.Initialize(this);
 
-        _playerHandler = gameObject.GetComponent<BattlePlayerHandler>();
+        _playerHandler = gameObject.GetComponent<BattleCharacterHandler>();
         _playerHandler.Initialize(this);
 
         Helper = gameObject.GetComponent<BattleHelper>();
@@ -38,7 +38,8 @@ public class BattleSystem : MonoBehaviour
 
     void OnPlayerAdded(Player player)
     {
-        player.BattleEntities.ForEach(x => x.Initialize(this));
+        // TEMP!!!
+        player.ActiveCharacter.BattleEntities.ForEach(x => x.Initialize(this));
     }
 
     public void Log(string message, params object[] args)

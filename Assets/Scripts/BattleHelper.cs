@@ -9,7 +9,7 @@ public class BattleHelper : MonoBehaviour
     public ParalysisParameters ParalysisParameters;
     public SleepParameters SleepParameters;
 
-    public bool SetPlayerStatus(Status status, Player target)
+    public bool SetPlayerStatus(Status status, Character target)
     {
         if (target.Status.Current == Status.None)
         {
@@ -30,7 +30,7 @@ public class BattleHelper : MonoBehaviour
         }
     }
 
-    public string GetConditionAddedMessage(Player player, ConditionType condition)
+    public string GetConditionAddedMessage(Character player, ConditionType condition)
     {
         // TODO: Remove hard-coded strings.
         switch (condition)
@@ -41,7 +41,7 @@ public class BattleHelper : MonoBehaviour
         return "";
     }
 
-    public string GetConditionRemovedMessage(Player player, ConditionType condition)
+    public string GetConditionRemovedMessage(Character player, ConditionType condition)
     {
         // TODO: Remove hard-coded strings.
         switch (condition)
@@ -53,7 +53,7 @@ public class BattleHelper : MonoBehaviour
         return "";
     }
 
-    public string GetStatusAddedMessage(Player player, Status status)
+    public string GetStatusAddedMessage(Character player, Status status)
     {
         // TODO: Remove hard-coded strings.
         switch (status)
@@ -66,7 +66,7 @@ public class BattleHelper : MonoBehaviour
         return "";
     }
 
-    public bool SetCondition(ConditionType condition, Player target)
+    public bool SetCondition(ConditionType condition, Character target)
     {
         bool isStatus = condition == ConditionType.Paralysis || condition == ConditionType.Sleep;
 

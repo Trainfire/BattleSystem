@@ -15,7 +15,7 @@ class ModifyStatus : TargetedAction
         }
         else
         {
-            battleSystem.Registry.Players.ForEach(x => battleSystem.Helper.SetPlayerStatus(Status, x));
+            battleSystem.Registry.ActiveCharacters.ForEach(x => battleSystem.Helper.SetPlayerStatus(Status, x));
         }
 
         TriggerCompletion();

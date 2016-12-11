@@ -4,8 +4,8 @@ using System;
 public class HealthChangeEvent
 {
     public Health Health { get; set; }
-    public Player Source { get; set; }
-    public Player Reciever { get; set; }
+    public Character Source { get; set; }
+    public Character Reciever { get; set; }
     public int OldValue { get; set; }
     public int NewValue { get; set; }
 }
@@ -21,7 +21,7 @@ public class Health : MonoBehaviour
         Current = 100;
     }
 
-    public void ChangeHealth(Player source, int amount)
+    public void ChangeHealth(Character source, int amount)
     {
         if (Changed != null)
         {
@@ -29,7 +29,7 @@ public class Health : MonoBehaviour
             {
                 Health = this,
                 Source = source,
-                Reciever = GetComponent<Player>(),
+                Reciever = GetComponent<Character>(),
                 OldValue = Current,
                 NewValue = Current + amount,
             });

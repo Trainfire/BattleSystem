@@ -116,9 +116,10 @@ public class BattleStateInput : BattleState
             var target = BattleSystem.Registry.Players.Where(x => x != player).First();
 
             // TEMP.
-            var attack = GameObject.Instantiate(player.Attack);
-            attack.SetSource(player);
-            attack.SetReciever(target);
+            // TODO: Replace player.attack with player.party.first.attack?
+            var attack = GameObject.Instantiate(player.Party.InBattle.Attack);
+            attack.SetSource(player.ActiveCharacter);
+            attack.SetReciever(target.ActiveCharacter);
 
             BattleSystem.Registry.RegisterPlayerCommand(attack);
         });

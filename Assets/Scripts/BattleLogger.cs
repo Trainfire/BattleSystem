@@ -17,7 +17,7 @@ class BattleLogger : TargetedAction
         TriggerCompletion();
     }
 
-    public static string Format(string message, Player source, Player reciever)
+    public static string Format(string message, Character source, Character reciever)
     {
         if (source != null)
             message = message.Replace("{SOURCE}", source.name);

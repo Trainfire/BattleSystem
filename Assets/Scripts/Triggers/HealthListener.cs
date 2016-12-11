@@ -1,17 +1,17 @@
 using System;
 using UnityEngine;
 
-public abstract class HealthListener : PlayerListener
+public abstract class HealthListener : CharacterListener
 {
     private bool _ignoreSelfDamage = true;
 
     private Health _health;
 
-    protected override void OnSetPlayer()
+    protected override void OnSetCharacter()
     {
-        base.OnSetPlayer();
+        base.OnSetCharacter();
 
-        _health = Player.Health;
+        _health = Character.Health;
         _health.Changed += CheckSource;
     }
 

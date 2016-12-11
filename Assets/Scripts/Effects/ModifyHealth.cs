@@ -15,7 +15,7 @@ class ModifyHealth : TargetedAction
         }
         else
         {
-            battleSystem.Registry.Players.ForEach(x => x.Health.ChangeHealth(Source, Amount));
+            battleSystem.Registry.ActiveCharacters.ForEach(x => x.Health.ChangeHealth(Source, Amount));
         }
 
         TriggerCompletion();

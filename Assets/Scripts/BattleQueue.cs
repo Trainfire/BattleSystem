@@ -131,7 +131,7 @@ public class BattleQueue : MonoBehaviour
     void OnEnterStatusUpdate(BattleSystem battleSystem)
     {
         // Find existing status effects on each player and register each one.
-        battleSystem.Registry.Players.ForEach(x =>
+        battleSystem.Registry.ActiveCharacters.ForEach(x =>
         {
             if (x.Status.Effect != null)
             {

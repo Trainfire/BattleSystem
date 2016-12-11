@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public class TargetedAction : BaseAction
 {
-    public Player Source { get; private set; }
-    public Player Reciever { get; private set; }
+    public Character Source { get; private set; }
+    public Character Reciever { get; private set; }
 
     private List<TargetedAction> _attachedComponents;
 
@@ -39,13 +39,13 @@ public class TargetedAction : BaseAction
 
     protected override void OnExecute(BattleSystem battleSystem) { }
 
-    public void SetSource(Player source)
+    public void SetSource(Character source)
     {
         Source = source;
         OnSourceSet();
     }
 
-    public void SetReciever(Player reciever)
+    public void SetReciever(Character reciever)
     {
         Reciever = reciever;
         OnRecieverSet();
@@ -54,7 +54,7 @@ public class TargetedAction : BaseAction
     protected virtual void OnSourceSet() { }
     protected virtual void OnRecieverSet() { }
 
-    public static T Create<T>(Player source, Player reciever) where T : TargetedAction
+    public static T Create<T>(Character source, Character reciever) where T : TargetedAction
     {
         var targetedAction = new GameObject("TargetedAction").AddComponent<T>();
         targetedAction.SetSource(source);
@@ -62,7 +62,7 @@ public class TargetedAction : BaseAction
         return targetedAction;
     }
 
-    public static T Create<T>(Player reciever) where T : TargetedAction
+    public static T Create<T>(Character reciever) where T : TargetedAction
     {
         var targetedAction = new GameObject("TargetedAction").AddComponent<T>();
         targetedAction.SetReciever(reciever);

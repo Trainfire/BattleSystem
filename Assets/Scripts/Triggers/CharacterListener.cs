@@ -1,9 +1,9 @@
 using UnityEngine;
 
-public class PlayerListener : MonoBehaviour
+public class CharacterListener : MonoBehaviour
 {
     public BattleSystem BattleSystem { get; private set; }
-    public Player Player { get; private set; }
+    public Character Character { get; private set; }
 
     public void Initialize(BattleSystem battleSystem)
     {
@@ -13,11 +13,11 @@ public class PlayerListener : MonoBehaviour
 
     protected virtual void OnInitialize() { }
 
-    public void SetPlayer(Player player)
+    public void SetCharacter(Character character)
     {
-        Player = player;
-        OnSetPlayer();
+        Character = character;
+        OnSetCharacter();
     }
 
-    protected virtual void OnSetPlayer() { }
+    protected virtual void OnSetCharacter() { }
 }
