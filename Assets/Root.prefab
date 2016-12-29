@@ -1,0 +1,156 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1000013539460834}
+  m_IsPrefabParent: 1
+--- !u!1 &1000013539460834
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 4000011086590024}
+  - 114: {fileID: 114000012043704992}
+  - 114: {fileID: 114000012529366702}
+  - 114: {fileID: 114000010270808506}
+  - 114: {fileID: 114000011761789094}
+  - 114: {fileID: 114000012998927846}
+  - 114: {fileID: 114000014049852330}
+  - 114: {fileID: 114000011115517384}
+  m_Layer: 0
+  m_Name: Root
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4000011086590024
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013539460834}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+--- !u!114 &114000010270808506
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013539460834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe03fd1482faf94fb7e78acb361adc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _logRegistrations: 0
+--- !u!114 &114000011115517384
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013539460834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82d4462c56a947640a7484edb0595f27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114000011761789094
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013539460834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e6973350a87aab4c8532f574b947059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sandstorm: {fileID: 1000012589421886, guid: e515e2f234882084aabb942aa8dc50e2, type: 2}
+  _initialWeather: 0
+--- !u!114 &114000012043704992
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013539460834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ca16c2c07f4a4f4293360e3bdc0a9ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114000012529366702
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013539460834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c5e0152630c1b04a937db2b91a53635, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _autoReadyPlayers: 1
+  _enableManualStepping: 1
+--- !u!114 &114000012998927846
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013539460834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07c8971fc4d002d4ea3301534f4a8d9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Poison: {fileID: 1000011293771328, guid: 54b45c50eb3f70249b02d6697d2c23da, type: 2}
+  ConfusionParameters:
+    OnEvaluateMessage: '{TARGET} is confused!'
+    OnFailMessage: 
+    OnFailAction: {fileID: 114000014238621672, guid: 1cc3d9e847e0de04ea422efab433e6d3,
+      type: 2}
+    OnRemoveAction: {fileID: 0}
+    MinTurns: 3
+    MaxTurns: 5
+    ChanceRemoval: 0.2
+    ChanceSelfDamage: 0.5
+  ParalysisParameters:
+    OnEvaluateMessage: '{TARGET} is paralyzed...'
+    OnFailMessage: '{TARGET} was unable to move!'
+    OnFailAction: {fileID: 0}
+    OnRemoveAction: {fileID: 0}
+    Chance: 0.5
+  SleepParameters:
+    OnEvaluateMessage: '{TARGET} is asleep...'
+    OnFailMessage: 
+    OnFailAction: {fileID: 0}
+    OnRemoveAction: {fileID: 0}
+    MinTurns: 3
+    MaxTurns: 5
+    WakeUpChance: 0.25
+--- !u!114 &114000014049852330
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013539460834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfd0f024957b91748bf6b233e135ab41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _logRegistrations: 0
