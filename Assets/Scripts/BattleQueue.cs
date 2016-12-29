@@ -68,7 +68,7 @@ public class BattleQueue : MonoBehaviour
                 break;
             case BattleQueueType.PlayerCommand:
                 _playerCommands.Queue.Enqueue(action);
-                LogEx.Log<BattleQueue>("Registered player command '" + action.GetType() + "' targeting '" + (action as TargetedAction).Reciever.name + "'");
+                //LogEx.Log<BattleQueue>("Registered player command '" + action.GetType() + "' targeting '" + (action as TargetedAction).Reciever.name + "'");
                 break;
             case BattleQueueType.StatusUpdate:
                 _statusUpdates.Queue.Enqueue(action);
@@ -195,7 +195,7 @@ public class BattleQueue : MonoBehaviour
         RegisterAction(action, BattleQueueType.Normal);
     }
 
-    public void RegisterPlayerCommand(TargetedAction action)
+    public void RegisterPlayerCommand(BaseAction action)
     {
         RegisterAction(action, BattleQueueType.PlayerCommand);
     }

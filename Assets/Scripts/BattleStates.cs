@@ -95,7 +95,7 @@ public class BattleStateInput : BattleState
         LogEx.Log<BattleStates>("Waiting for {0} players.", BattleSystem.Registry.Players.Count);
 
         if (BattleSystem.AutoReadyPlayers)
-            BattleSystem.Registry.Players.ForEach(x => x.ToggleReady());
+            BattleSystem.Registry.Players.ForEach(x => x.Attack());
     }
 
     void OnPlayerReadyStateChanged(Player player)

@@ -19,8 +19,8 @@ public class PlayerSwitchEvent
 public class Player : MonoBehaviour
 {
     public event Action<Player> ReadyStateChanged;
-    public event Action<PlayerSwitchEvent> SwitchedCharacter;
-    public event Action<Player> AttackSelected;
+    public event Action<SwitchCommand> SwitchedCharacter;
+    public event Action<AttackCommand> AttackSelected;
 
     public PlayerParty Party { get; private set; }
     public Character ActiveCharacter { get { return Party.InBattle; } }
@@ -37,13 +37,18 @@ public class Player : MonoBehaviour
         // TODO: 
         // * Allow target to be passed in.
         // * Allow move to be passed in.
-        AttackSelected.InvokeSafe(this);
+
+        // TODO: 
+        // * FieldSlot is null here but set inside the AttackCommand. This is temporary until there's a UI.
+        // * Attack is just the first attack. This is temporary until the player can select from a list of attacks.
+        var attackCommand = AttackCommand.Create(this, ActiveCharacter, null, ActiveCharacter.Attack);
+        AttackSelected.InvokeSafe(attackCommand);
         SetReady();
     }
 
     public void Switch(Character switchTarget)
     {
-        SwitchedCharacter.InvokeSafe(new PlayerSwitchEvent(this, switchTarget));
+        SwitchedCharacter.InvokeSafe(SwitchCommand.Create(this, switchTarget));
         SetReady();
     }
 
@@ -54,7 +59,7 @@ public class Player : MonoBehaviour
     public void Switch()
     {
         var switchTarget = Party.Characters.Where(x => x != Party.InBattle).FirstOrDefault();
-        SwitchedCharacter.InvokeSafe(new PlayerSwitchEvent(this, switchTarget));
+        SwitchedCharacter.InvokeSafe(SwitchCommand.Create(this, switchTarget));
         SetReady();
     }
 

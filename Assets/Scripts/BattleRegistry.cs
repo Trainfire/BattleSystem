@@ -50,7 +50,7 @@ public class BattleRegistry : MonoBehaviour
         RegisterAction(action, BattleQueueType.Normal);
     }
 
-    public void RegisterPlayerCommand(TargetedAction action)
+    public void RegisterPlayerCommand(BaseAction action)
     {
         RegisterAction(action, BattleQueueType.PlayerCommand);
     }

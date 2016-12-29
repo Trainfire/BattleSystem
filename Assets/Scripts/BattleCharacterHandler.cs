@@ -21,23 +21,16 @@ class BattleCharacterHandler : MonoBehaviour
         player.SwitchedCharacter += OnPlayerSwitchedCharacter;
     }
 
-    void OnPlayerAttackSelected(Player player)
+    void OnPlayerAttackSelected(AttackCommand attack)
     {
-        var target = _battleSystem.Registry.Players.Where(x => x != player).First();
-
-        // TEMP.
-        // TODO: Replace player.attack with player.party.first.attack?
-        var attack = GameObject.Instantiate(player.Party.InBattle.Attack);
-        attack.SetSource(player.ActiveCharacter);
-        attack.SetReciever(target.ActiveCharacter);
-
         _battleSystem.Registry.RegisterPlayerCommand(attack);
     }
 
-    void OnPlayerSwitchedCharacter(PlayerSwitchEvent arg)
+    void OnPlayerSwitchedCharacter(SwitchCommand arg)
     {
         Debug.LogFormat("{0} wants to switch to {1}.", arg.Player.name, arg.SwitchTarget.name);
-        _battleSystem.Registry.RegisterPlayerCommand(Switch.Create(arg));
+        _battleSystem.Registry.RegisterCharacter(arg.SwitchTarget);
+        _battleSystem.Registry.RegisterPlayerCommand(arg);
     }
 
     void OnCharacterAdded(Character character)
@@ -45,6 +38,7 @@ class BattleCharacterHandler : MonoBehaviour
         character.Health.Changed += OnHealthChanged;
         character.Status.StatusChanged += OnStatusChanged;
         character.Status.ConditionChanged += OnConditionChanged;
+        character.SwitchedOut += OnCharacterSwitchedOut;
     }
 
     void OnCharacterRemoved(Character character)
@@ -52,6 +46,12 @@ class BattleCharacterHandler : MonoBehaviour
         character.Health.Changed -= OnHealthChanged;
         character.Status.StatusChanged -= OnStatusChanged;
         character.Status.ConditionChanged -= OnConditionChanged;
+        character.SwitchedOut -= OnCharacterSwitchedOut;
+    }
+
+    void OnCharacterSwitchedOut(Character character)
+    {
+        _battleSystem.Registry.UnregisterCharacter(character);
     }
 
     void OnStatusChanged(StatusChangeEvent arg)

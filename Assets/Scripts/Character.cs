@@ -11,7 +11,7 @@ public class Character : MonoBehaviour
     public event Action<StatusChangeEvent> StatusChanged;
     public event Action<ConditionChangeEvent> ConditionChanged;
 
-    public TargetedAction Attack;
+    public Attack Attack;
     public GameObject HeldItem;
     public GameObject Ability;
 
