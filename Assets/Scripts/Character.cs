@@ -7,10 +7,6 @@ public class Character : MonoBehaviour
     public event Action<StatusChangeEvent> StatusChanged;
     public event Action<ConditionChangeEvent> ConditionChanged;
 
-    public event Action<Character> ReadyStateChanged;
-
-    public bool IsReady { get; private set; }
-
     public TargetedAction Attack;
     public GameObject HeldItem;
     public GameObject Ability;
@@ -50,18 +46,5 @@ public class Character : MonoBehaviour
             battleEntity.SetCharacter(this);
             _battleEntities.Add(battleEntity);
         }
-    }
-
-    public void ToggleReady()
-    {
-        IsReady = !IsReady;
-
-        if (ReadyStateChanged != null)
-            ReadyStateChanged.Invoke(this);
-    }
-
-    public void ResetReady()
-    {
-        IsReady = false;
     }
 }
