@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using UnityEngine;
 
 class BattleCharacterHandler : MonoBehaviour
@@ -8,22 +9,49 @@ class BattleCharacterHandler : MonoBehaviour
     public void Initialize(BattleSystem battleSystem)
     {
         _battleSystem = battleSystem;
-        _battleSystem.Registry.CharacterAdded += OnPlayerAdded;
-        // TODO: Support removal.
+        _battleSystem.Registry.PlayerAdded += OnPlayerAdded;
+        _battleSystem.Registry.CharacterAdded += OnCharacterAdded;
+        _battleSystem.Registry.CharacterRemoved += OnCharacterRemoved;
     }
 
-    void OnPlayerAdded(Character player)
+    void OnPlayerAdded(Player player)
     {
-        player.Health.Changed += OnHealthChanged;
-        player.Status.StatusChanged += OnStatusChanged;
-        player.Status.ConditionChanged += OnConditionChanged;
+        Debug.Log("Player added");
+        player.AttackSelected += OnPlayerAttackSelected;
+        player.SwitchedCharacter += OnPlayerSwitchedCharacter;
     }
 
-    void OnPlayerRemoved(Character player)
+    void OnPlayerAttackSelected(Player player)
     {
-        player.Health.Changed -= OnHealthChanged;
-        player.Status.StatusChanged -= OnStatusChanged;
-        player.Status.ConditionChanged -= OnConditionChanged;
+        var target = _battleSystem.Registry.Players.Where(x => x != player).First();
+
+        // TEMP.
+        // TODO: Replace player.attack with player.party.first.attack?
+        var attack = GameObject.Instantiate(player.Party.InBattle.Attack);
+        attack.SetSource(player.ActiveCharacter);
+        attack.SetReciever(target.ActiveCharacter);
+
+        _battleSystem.Registry.RegisterPlayerCommand(attack);
+    }
+
+    void OnPlayerSwitchedCharacter(PlayerSwitchEvent arg)
+    {
+        Debug.LogFormat("{0} wants to switch to {1}.", arg.Player.name, arg.SwitchTarget.name);
+        _battleSystem.Registry.RegisterPlayerCommand(Switch.Create(arg));
+    }
+
+    void OnCharacterAdded(Character character)
+    {
+        character.Health.Changed += OnHealthChanged;
+        character.Status.StatusChanged += OnStatusChanged;
+        character.Status.ConditionChanged += OnConditionChanged;
+    }
+
+    void OnCharacterRemoved(Character character)
+    {
+        character.Health.Changed -= OnHealthChanged;
+        character.Status.StatusChanged -= OnStatusChanged;
+        character.Status.ConditionChanged -= OnConditionChanged;
     }
 
     void OnStatusChanged(StatusChangeEvent arg)

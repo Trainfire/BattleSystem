@@ -5,11 +5,21 @@ using System.Collections;
 [CustomEditor(typeof(Player))]
 public class PlayerEditor : Editor
 {
+    private Player _player;
+
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
-        if (GUILayout.Button("Ready"))
-            (target as Player).ToggleReady();
+        _player = target as Player;
+
+        if (_player.IsReady)
+            return;
+
+        if (GUILayout.Button("Attack"))
+            _player.Attack();
+
+        if (GUILayout.Button("Switch"))
+            _player.Switch();
     }
 }

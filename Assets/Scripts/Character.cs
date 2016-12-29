@@ -1,9 +1,13 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using Framework;
 
 public class Character : MonoBehaviour
 {
+    public event Action<Character> SwitchedOut;
+    public event Action<Character> SwitchedIn;
+
     public event Action<StatusChangeEvent> StatusChanged;
     public event Action<ConditionChangeEvent> ConditionChanged;
 
@@ -11,14 +15,17 @@ public class Character : MonoBehaviour
     public GameObject HeldItem;
     public GameObject Ability;
 
+    public Player Owner { get; private set; }
     public Health Health { get; private set; }
     public CharacterStatus Status { get; private set; }
+    public ActiveState ActiveState { get; private set; } 
 
     private List<CharacterListener> _battleEntities;
     public List<CharacterListener> BattleEntities { get { return _battleEntities; } }
 
     void Awake()
     {
+        Owner = gameObject.GetComponentInParent<Player>();
         Health = gameObject.AddComponent<Health>();
 
         Status = gameObject.AddComponent<CharacterStatus>();
@@ -46,5 +53,33 @@ public class Character : MonoBehaviour
             battleEntity.SetCharacter(this);
             _battleEntities.Add(battleEntity);
         }
+    }
+
+    public void SwitchOut()
+    {
+        if (CanSwitch())
+        {
+            ActiveState = ActiveState.Inactive;
+            SwitchedOut.InvokeSafe(this);
+        }
+    }
+
+    public void SwitchIn()
+    {
+        if (CanSwitch())
+        {
+            ActiveState = ActiveState.InBattle;
+            SwitchedIn.InvokeSafe(this);
+        }
+    }
+
+    public bool CanSwitch()
+    {
+        if (ActiveState == ActiveState.Fainted)
+            Debug.LogWarningFormat("Cannot switch in character '{0}' as their state is currently Fainted.", name);
+
+        // TODO: Check if character is locked into battle.
+
+        return ActiveState != ActiveState.Fainted;
     }
 }

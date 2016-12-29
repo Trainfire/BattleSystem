@@ -40,3 +40,10 @@ public enum AddRemoveType
     Added,
     Removed,
 }
+
+public enum ActiveState
+{
+    Inactive,
+    InBattle,
+    Fainted,
+}

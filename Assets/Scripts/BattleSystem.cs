@@ -13,7 +13,7 @@ public class BattleSystem : MonoBehaviour
     public BattleWeather Weather { get; private set; }
 
     private BattleQueue _queue;
-    private BattleCharacterHandler _playerHandler;
+    private BattleCharacterHandler _characterHandler;
 
     public int TurnCount { get; private set; }
 
@@ -28,8 +28,8 @@ public class BattleSystem : MonoBehaviour
         _queue = gameObject.GetComponent<BattleQueue>();
         _queue.Initialize(this);
 
-        _playerHandler = gameObject.GetComponent<BattleCharacterHandler>();
-        _playerHandler.Initialize(this);
+        _characterHandler = gameObject.GetComponent<BattleCharacterHandler>();
+        _characterHandler.Initialize(this);
 
         Helper = gameObject.GetComponent<BattleHelper>();
 
