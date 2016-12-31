@@ -9,6 +9,7 @@ public enum BattleStateID
     WaitingForInput,
     Executing,
     PostTurn,
+    PostTurnExecute,
 }
 
 public class BattleCoordinator : MonoBehaviour
@@ -26,6 +27,7 @@ public class BattleCoordinator : MonoBehaviour
     private BattleStateInput _stateInput;
     private BattleStateExecute _stateExecute;
     private BattleStatePostTurn _statePostTurn;
+    private BattleStatePostTurnExecute _statePostTurnExecute;
 
     public BattleSystem System { get { return _system; } }
     public BattleQueue Queue { get { return _queue; } }
@@ -47,6 +49,7 @@ public class BattleCoordinator : MonoBehaviour
         _stateInput = RegisterState<BattleStateInput>();
         _stateExecute = RegisterState<BattleStateExecute>();
         _statePostTurn = RegisterState<BattleStatePostTurn>();
+        _statePostTurnExecute = RegisterState<BattleStatePostTurnExecute>();
 
         SetState(BattleStateID.Start);
     }
@@ -74,7 +77,7 @@ public class BattleCoordinator : MonoBehaviour
 
                 if (gameOver)
                 {
-                    
+                    LogEx.Log<BattleCoordinator>("Game Over!");
                 }
                 else
                 {
@@ -82,7 +85,8 @@ public class BattleCoordinator : MonoBehaviour
                 }
                 break;
 
-            case BattleStateID.PostTurn: SetState(BattleStateID.WaitingForInput); break;
+            case BattleStateID.PostTurn: SetState(BattleStateID.PostTurnExecute); break;
+            case BattleStateID.PostTurnExecute: SetState(BattleStateID.WaitingForInput); break;
         }
     }
 
@@ -94,6 +98,7 @@ public class BattleCoordinator : MonoBehaviour
             case BattleStateID.WaitingForInput: _state = _stateInput; break;
             case BattleStateID.Executing: _state = _stateExecute; break;
             case BattleStateID.PostTurn: _state = _statePostTurn; break;
+            case BattleStateID.PostTurnExecute: _state = _statePostTurnExecute; break;
         }
 
         LogEx.Log<BattleCoordinator>("State is now: " + _state.ID);
@@ -232,6 +237,7 @@ public class BattleStatePostTurn : BattleState
 
         if (_replacingPlayers.Count != 0)
         {
+            LogEx.Log<BattleStatePostTurn>("Waiting for {0} players to choose a replacement...", _replacingPlayers.Count);
             _replacingPlayers.ForEach(x => x.ReplacementCharacterSelected += OnPlayerReplacementCharacterSelected);
         }
         else
@@ -256,27 +262,34 @@ public class BattleStatePostTurn : BattleState
         if (_replacingPlayers.Count == 0)
         {
             LogEx.Log<BattleStatePostTurn>("All players have chosen their replacements. Executing...");
-            Coordinator.Queue.Empty += OnCommandsDepleted;
-            Coordinator.Continue();
+            End();
         }
     }
+}
 
-    void OnCommandsDepleted(BattleQueue obj)
+public class BattleStatePostTurnExecute : BattleState
+{
+    public override BattleStateID ID { get { return BattleStateID.PostTurnExecute; } }
+
+    public override void OnStart()
     {
-        LogEx.Log<BattleStatePostTurn>("All players did a thing.");
-        //End();
+        base.OnStart();
+
+        Coordinator.Queue.Empty += OnCommandsDepleted;
+
+        OnContinue();
     }
 
-    //void Execute()
-    //{
-    //    var next = _replacementActions.Dequeue();
-    //    next.Completed += OnActionCompleted;
-    //    next.Execute(BattleSystem);
-    //}
+    public override void OnContinue()
+    {
+        base.OnContinue();
 
-    //void OnActionCompleted(BaseAction action)
-    //{
-    //    if (_replacementActions.Count == 0)
-    //        End();
-    //}
+        Coordinator.Queue.Execute(ExecutionType.PostTurn);
+    }
+
+    void OnCommandsDepleted(BattleQueue queue)
+    {
+        queue.Empty -= OnCommandsDepleted;
+        End();
+    }
 }
