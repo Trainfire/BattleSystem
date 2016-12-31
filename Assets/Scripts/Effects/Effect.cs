@@ -23,7 +23,7 @@ abstract class EffectBase : TargetedAction
         }
         else
         {
-            affectors = battleSystem.Registry.ActiveCharacters;
+            affectors = battleSystem.ActiveCharacters;
         }
 
         affectors.ForEach(x => OnApplyEffect(battleSystem, x));

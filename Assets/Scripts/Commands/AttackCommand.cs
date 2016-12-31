@@ -29,14 +29,14 @@ public class AttackCommand : BaseAction
     protected override void OnExecute(BattleSystem battleSystem)
     {
         // TEMP!
-        var target = battleSystem.Registry.Players.Where(x => x != _player).First().ActiveCharacter;
+        var target = battleSystem.Players.Where(x => x != _player).First().ActiveCharacter;
 
         var attackInstance = GameObject.Instantiate(_attack.gameObject).GetComponent<Attack>();
         attackInstance.name = "Attack";
         attackInstance.SetSource(_actor);
         attackInstance.SetReciever(target);
 
-        battleSystem.Registry.RegisterAction(attackInstance);
+        battleSystem.RegisterAction(attackInstance);
 
         TriggerCompletion();
     }

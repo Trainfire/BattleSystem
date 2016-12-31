@@ -16,10 +16,10 @@ public class SwitchCommand : BaseAction
     protected override void OnExecute(BattleSystem battleSystem)
     {
         battleSystem.Log("{0} called back {1}!", Player.name, Player.Party.InBattle.name);
-        battleSystem.Registry.RegisterAction(Player.Party.InBattle.SwitchOut, "Switch Out");
+        battleSystem.RegisterAction(Player.Party.InBattle.SwitchOut, "Switch Out");
 
         battleSystem.Log("{0} sent in {1}!", Player.name, SwitchTarget.name);
-        battleSystem.Registry.RegisterAction(SwitchTarget.SwitchIn, "Switch In");
+        battleSystem.RegisterAction(SwitchTarget.SwitchIn, "Switch In");
     }
 
     public static SwitchCommand Create(Player player, Character switchTarget)

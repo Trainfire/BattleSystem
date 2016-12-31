@@ -5,6 +5,7 @@ using System.Linq;
 
 public enum BattleStateID
 {
+    Start,
     WaitingForInput,
     Executing,
     PostTurn,
@@ -21,12 +22,14 @@ public class BattleCoordinator : MonoBehaviour
     private BattleSystem _system;
     private BattleQueue _queue;
     private BattleState _state;
+    private BattleStateStart _stateStart;
     private BattleStateInput _stateInput;
     private BattleStateExecute _stateExecute;
     private BattleStatePostTurn _statePostTurn;
 
     public BattleSystem System { get { return _system; } }
     public BattleQueue Queue { get { return _queue; } }
+    public int TurnCount { get; private set; }
 
     T RegisterState<T>() where T : BattleState
     {
@@ -40,11 +43,12 @@ public class BattleCoordinator : MonoBehaviour
         _system = system;
         _queue = queue;
 
+        _stateStart = RegisterState<BattleStateStart>();
         _stateInput = RegisterState<BattleStateInput>();
         _stateExecute = RegisterState<BattleStateExecute>();
         _statePostTurn = RegisterState<BattleStatePostTurn>();
 
-        SetState(BattleStateID.WaitingForInput);
+        SetState(BattleStateID.Start);
     }
 
     public void Continue()
@@ -52,10 +56,16 @@ public class BattleCoordinator : MonoBehaviour
         _state.OnContinue();
     }
 
-    void OnStateEnd(BattleState state)
+    public void AddTurn()
     {
-        switch (state.ID)
+        TurnCount++;
+    }
+
+    void OnStateEnd(BattleState endingState)
+    {
+        switch (endingState.ID)
         {
+            case BattleStateID.Start: SetState(BattleStateID.WaitingForInput); break;
             case BattleStateID.WaitingForInput: SetState(BattleStateID.Executing); break;
 
             case BattleStateID.Executing:
@@ -80,6 +90,7 @@ public class BattleCoordinator : MonoBehaviour
     {
         switch (stateID)
         {
+            case BattleStateID.Start: _state = _stateStart; break;
             case BattleStateID.WaitingForInput: _state = _stateInput; break;
             case BattleStateID.Executing: _state = _stateExecute; break;
             case BattleStateID.PostTurn: _state = _statePostTurn; break;
@@ -123,31 +134,47 @@ public abstract class BattleState
     public virtual void OnEnd() { }
 }
 
+public class BattleStateStart : BattleState
+{
+    public override BattleStateID ID { get { return BattleStateID.Start; } }
+
+    public override void OnStart()
+    {
+        // Use for any initialization logic.
+        foreach (var player in GameObject.FindObjectsOfType<Player>())
+        {
+            Coordinator.System.RegisterPlayer(player);
+        }
+
+        End();
+    }
+}
+
 public class BattleStateInput : BattleState
 {
     public override BattleStateID ID { get { return BattleStateID.WaitingForInput; } }
 
     public override void OnStart()
     {
-        Coordinator.System.Registry.Players.ForEach(x => x.ReadyStateChanged += OnPlayerReadyStateChanged);
+        Coordinator.System.Players.ForEach(x => x.ReadyStateChanged += OnPlayerReadyStateChanged);
 
-        LogEx.Log<BattleCoordinator>("Waiting for {0} players.", Coordinator.System.Registry.Players.Count);
+        LogEx.Log<BattleCoordinator>("Waiting for {0} players.", Coordinator.System.Players.Count);
 
         if (Coordinator.AutoReadyPlayers)
-            Coordinator.System.Registry.Players.ForEach(x => x.Attack());
+            Coordinator.System.Players.ForEach(x => x.Attack());
     }
 
     void OnPlayerReadyStateChanged(Player player)
     {
         LogEx.Log<BattleCoordinator>("{0} ready state changed to: {1}", player.name, player.IsReady);
 
-        if (Coordinator.System.Registry.Players.TrueForAll(x => x.IsReady))
+        if (Coordinator.System.Players.TrueForAll(x => x.IsReady))
             End();
     }
 
     public override void OnEnd()
     {
-        Coordinator.System.Registry.Players.ForEach(player =>
+        Coordinator.System.Players.ForEach(player =>
         {
             player.ReadyStateChanged -= OnPlayerReadyStateChanged;
             player.ResetReady();
@@ -163,7 +190,9 @@ public class BattleStateExecute : BattleState
     {
         base.OnStart();
 
-        //LogEx.Log<BattleController>("#-- Begin Turn " + (Controller.TurnCount + 1) + " ---#");
+        Coordinator.AddTurn();
+
+        LogEx.Log<BattleStateExecute>("#--- Begin Turn " + (Coordinator.TurnCount) + " ---#");
 
         Coordinator.Queue.Empty += OnCommandsDepleted;
 
@@ -178,7 +207,7 @@ public class BattleStateExecute : BattleState
 
     void OnCommandsDepleted(BattleQueue queue)
     {
-        //LogEx.Log<BattleController>("#-- End Turn " + (Controller.TurnCount + 1) + " ---#");
+        LogEx.Log<BattleStateExecute>("#--- End Turn " + (Coordinator.TurnCount) + " ---#");
 
         queue.Empty -= OnCommandsDepleted;
         End();
@@ -197,7 +226,7 @@ public class BattleStatePostTurn : BattleState
 
         // Get all players whose character has fainted.
         _replacingPlayers = new List<Player>();
-        _replacingPlayers.AddRange(Coordinator.System.Registry.Players
+        _replacingPlayers.AddRange(Coordinator.System.Players
             .Where(x => x.ActiveCharacter.ActiveState == ActiveState.Fainted)
             .ToList());
 
@@ -213,7 +242,7 @@ public class BattleStatePostTurn : BattleState
 
     void OnPlayerReplacementCharacterSelected(ReplaceCommand replaceCommand)
     {
-        Coordinator.System.Registry.RegisterPlayerCommand(replaceCommand);
+        Coordinator.System.RegisterPlayerCommand(replaceCommand);
 
         if (_replacingPlayers.Contains(replaceCommand.Player))
         {

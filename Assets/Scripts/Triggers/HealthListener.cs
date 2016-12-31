@@ -33,7 +33,7 @@ public abstract class HealthListener : CharacterListener
             action.SetSource(healthChange.Source);
             action.SetReciever(healthChange.Reciever);
 
-            BattleSystem.Registry.RegisterAction(action);
+            BattleSystem.RegisterAction(action);
         }
     }
 

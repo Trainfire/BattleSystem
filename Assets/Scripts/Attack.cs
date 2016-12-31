@@ -40,7 +40,7 @@ public class Attack : TargetedAction
             {
                 var action = Instantiate(result.Parameters.OnFailAction);
                 action.SetReciever(Source);
-                battleSystem.Registry.RegisterAction(action);
+                battleSystem.RegisterAction(action);
             }
         }
         else

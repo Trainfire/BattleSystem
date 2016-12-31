@@ -1,21 +1,19 @@
 using UnityEngine;
-using System.Collections.Generic;
+using Framework;
 
 public class Root : MonoBehaviour
 {
     void Start()
     {
-        var battleSystem = gameObject.GetComponent<BattleSystem>();
+        var battleSystem = gameObject.GetOrAddComponent<BattleSystem>();
 
-        foreach (var player in FindObjectsOfType<Player>())
-        {
-            battleSystem.Registry.RegisterPlayer(player);
-        }
-
-        var queue = gameObject.GetComponent<BattleQueue>();
+        var queue = gameObject.GetOrAddComponent<BattleQueue>();
         queue.Initialize(battleSystem);
 
-        var coordinator = gameObject.GetComponent<BattleCoordinator>();
+        var handler = gameObject.GetOrAddComponent<BattleCharacterHandler>();
+        handler.Initialize(battleSystem);
+
+        var coordinator = gameObject.GetOrAddComponent<BattleCoordinator>();
         coordinator.Initialize(battleSystem, queue);
     }
 }

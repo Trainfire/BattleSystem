@@ -9,9 +9,9 @@ class BattleCharacterHandler : MonoBehaviour
     public void Initialize(BattleSystem battleSystem)
     {
         _battleSystem = battleSystem;
-        _battleSystem.Registry.PlayerAdded += OnPlayerAdded;
-        _battleSystem.Registry.CharacterAdded += OnCharacterAdded;
-        _battleSystem.Registry.CharacterRemoved += OnCharacterRemoved;
+        _battleSystem.PlayerAdded += OnPlayerAdded;
+        _battleSystem.CharacterAdded += OnCharacterAdded;
+        _battleSystem.CharacterRemoved += OnCharacterRemoved;
     }
 
     void OnPlayerAdded(Player player)
@@ -23,14 +23,14 @@ class BattleCharacterHandler : MonoBehaviour
 
     void OnPlayerAttackSelected(AttackCommand attack)
     {
-        _battleSystem.Registry.RegisterPlayerCommand(attack);
+        _battleSystem.RegisterPlayerCommand(attack);
     }
 
     void OnPlayerSwitchedCharacter(SwitchCommand arg)
     {
         Debug.LogFormat("{0} wants to switch to {1}.", arg.Player.name, arg.SwitchTarget.name);
-        _battleSystem.Registry.RegisterCharacter(arg.SwitchTarget);
-        _battleSystem.Registry.RegisterPlayerCommand(arg);
+        _battleSystem.RegisterCharacter(arg.SwitchTarget);
+        _battleSystem.RegisterPlayerCommand(arg);
     }
 
     void OnCharacterAdded(Character character)
@@ -51,7 +51,7 @@ class BattleCharacterHandler : MonoBehaviour
 
     void OnCharacterSwitchedOut(Character character)
     {
-        _battleSystem.Registry.UnregisterCharacter(character);
+        _battleSystem.UnregisterCharacter(character);
     }
 
     void OnStatusChanged(StatusChangeEvent arg)
@@ -78,6 +78,6 @@ class BattleCharacterHandler : MonoBehaviour
 
     void OnHealthChanged(HealthChangeEvent arg)
     {
-        _battleSystem.Registry.RegisterAction(UpdateHealth.Create(arg));
+        _battleSystem.RegisterAction(UpdateHealth.Create(arg));
     }
 }

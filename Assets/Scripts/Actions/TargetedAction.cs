@@ -77,7 +77,7 @@ public class TargetedAction : BaseAction
             {
                 action.SetSource(Source);
                 action.SetReciever(Reciever);
-                battleSystem.Registry.RegisterAction(action);
+                battleSystem.RegisterAction(action);
             }
         }
     }

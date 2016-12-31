@@ -16,7 +16,7 @@ public class ReplaceCommand : BaseAction
     protected override void OnExecute(BattleSystem battleSystem)
     {
         battleSystem.Log("{0} sent in {1}!", Player.name, Replacement.name);
-        battleSystem.Registry.RegisterAction(Replacement.SwitchIn, "Switch In");
+        battleSystem.RegisterAction(Replacement.SwitchIn, "Switch In");
     }
 
     public static ReplaceCommand Create(Player player, Character replacement)

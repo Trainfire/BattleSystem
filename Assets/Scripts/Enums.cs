@@ -47,3 +47,9 @@ public enum ActiveState
     InBattle,
     Fainted,
 }
+
+public enum ExecutionType
+{
+    Normal,
+    PostTurn,
+}

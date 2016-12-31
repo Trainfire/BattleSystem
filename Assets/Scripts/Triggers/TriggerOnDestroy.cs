@@ -14,7 +14,7 @@ class TriggerOnDestroy : TargetedAction
         {
             action.SetSource(Source);
             action.SetReciever(Reciever);
-            battleSystem.Registry.RegisterAction(action);
+            battleSystem.RegisterAction(action);
         }
     }
 }

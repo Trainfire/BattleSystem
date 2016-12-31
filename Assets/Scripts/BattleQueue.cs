@@ -48,7 +48,7 @@ public class BattleQueue : MonoBehaviour
     public void Initialize(BattleSystem battleSystem)
     {
         _battleSystem = battleSystem;
-        _battleSystem.Registry.ActionRegistered += OnActionRegistered;
+        _battleSystem.ActionRegistered += OnActionRegistered;
 
         _queues = new Queue<BattleQueueWrapper>();
 
@@ -180,7 +180,7 @@ public class BattleQueue : MonoBehaviour
     void OnEnterStatusUpdate(BattleSystem battleSystem)
     {
         // Find existing status effects on each player and register each one.
-        battleSystem.Registry.ActiveCharacters.ForEach(x =>
+        battleSystem.ActiveCharacters.ForEach(x =>
         {
             if (x.Status.Effect != null)
             {
