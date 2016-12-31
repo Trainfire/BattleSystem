@@ -5,6 +5,7 @@ using Framework;
 
 public class Character : MonoBehaviour
 {
+    public event Action<Character> Fainted;
     public event Action<Character> SwitchedOut;
     public event Action<Character> SwitchedIn;
 
@@ -16,6 +17,7 @@ public class Character : MonoBehaviour
     public GameObject Ability;
 
     public Player Owner { get; private set; }
+    public FieldSlot Slot { get; private set; }
     public Health Health { get; private set; }
     public CharacterStatus Status { get; private set; }
     public ActiveState ActiveState { get; private set; } 
@@ -41,7 +43,9 @@ public class Character : MonoBehaviour
     {
         if (obj.NewValue <= 0)
         {
+            LogEx.Log<Character>("{0} fainted...", name);
             ActiveState = ActiveState.Fainted;
+            Fainted.InvokeSafe(this);
         }
     }
 
@@ -64,10 +68,16 @@ public class Character : MonoBehaviour
         }
     }
 
+    public void AssignSlot(FieldSlot slot)
+    {
+        Slot = slot;
+    }
+
     public void SwitchOut()
     {
         if (CanSwitch())
         {
+            Slot.Clear();
             ActiveState = ActiveState.Inactive;
             SwitchedOut.InvokeSafe(this);
         }
@@ -77,6 +87,7 @@ public class Character : MonoBehaviour
     {
         if (CanSwitch())
         {
+            Owner.FieldSide.Register(this);
             ActiveState = ActiveState.InBattle;
             SwitchedIn.InvokeSafe(this);
         }

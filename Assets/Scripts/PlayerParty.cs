@@ -14,9 +14,9 @@ public class PlayerParty : MonoBehaviour
         if (_characters == null)
             _characters = new List<Character>();
 
-        // TEMP!!!
-        InBattle = _characters[0];
-        InBattle.SwitchIn();
+        //// TEMP!!!
+        //InBattle = _characters[0];
+        //InBattle.SwitchIn();
 
         _characters.ForEach(x => x.SwitchedIn += OnCharacterSwitchedIn);
     }

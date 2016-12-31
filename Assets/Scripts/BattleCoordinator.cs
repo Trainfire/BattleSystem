@@ -146,11 +146,30 @@ public class BattleStateStart : BattleState
     public override void OnStart()
     {
         // Use for any initialization logic.
-        foreach (var player in GameObject.FindObjectsOfType<Player>())
+        var players = GameObject.FindObjectsOfType<Player>();
+
+        for (int i = 0; i < players.Length; i++)
         {
-            Coordinator.System.RegisterPlayer(player);
+            int sideID = i % 2;
+            Coordinator.System.RegisterPlayer(players[i], sideID);
+
+            // Send in first character.
+            Coordinator.Queue.RegisterPlayerCommand(SwitchCommand.Create(players[i], players[i].Party.Characters[i]));
         }
 
+        Coordinator.Queue.Empty += OnQueueEmpty;
+        OnContinue();
+    }
+
+    public override void OnContinue()
+    {
+        base.OnContinue();
+        Coordinator.Queue.Execute(ExecutionType.PostTurn);
+    }
+
+    void OnQueueEmpty(BattleQueue obj)
+    {
+        Coordinator.Queue.Empty -= OnQueueEmpty;
         End();
     }
 }

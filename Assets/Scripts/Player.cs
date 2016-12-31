@@ -24,6 +24,7 @@ public class Player : MonoBehaviour
     public event Action<ReplaceCommand> ReplacementCharacterSelected;
 
     public PlayerParty Party { get; private set; }
+    public FieldSide FieldSide { get; private set; }
     public Character ActiveCharacter { get { return Party.InBattle; } }
 
     public bool IsReady { get; private set; }
@@ -31,6 +32,12 @@ public class Player : MonoBehaviour
     void Awake()
     {
         Party = GetComponent<PlayerParty>();
+    }
+
+    public void AssignFieldSide(FieldSide fieldSide)
+    {
+        LogEx.Log<Player>("Assigned to field {0}", fieldSide.ID);
+        FieldSide = fieldSide;
     }
 
     public void Attack()
