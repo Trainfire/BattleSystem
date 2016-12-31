@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Framework;
 
 public enum BattleQueueType
 {
@@ -14,6 +14,7 @@ public enum BattleQueueType
 public class BattleQueueWrapper
 {
     public BattleQueueType Type { get; private set; }
+    public bool ExecutePostTurn { get; private set; }
     public Queue<BaseAction> Queue { get; private set; }
 
     /// <summary>
@@ -21,15 +22,18 @@ public class BattleQueueWrapper
     /// </summary>
     public Action<BattleSystem> OnActivation { get; set; }
 
-    public BattleQueueWrapper(BattleQueueType type)
+    public BattleQueueWrapper(BattleQueueType type, bool executePostTurn = true)
     {
         Type = type;
         Queue = new Queue<BaseAction>();
+        ExecutePostTurn = executePostTurn;
     }
 }
 
 public class BattleQueue : MonoBehaviour
 {
+    public event Action<BattleQueue> Empty;
+
     [SerializeField] private bool _logRegistrations;
 
     private BattleQueueWrapper _playerCommands;
@@ -49,8 +53,8 @@ public class BattleQueue : MonoBehaviour
         _queues = new Queue<BattleQueueWrapper>();
 
         _playerCommands = new BattleQueueWrapper(BattleQueueType.PlayerCommand);
-        _statusUpdates = new BattleQueueWrapper(BattleQueueType.StatusUpdate);
-        _weatherUpdates = new BattleQueueWrapper(BattleQueueType.Weather);
+        _statusUpdates = new BattleQueueWrapper(BattleQueueType.StatusUpdate, false);
+        _weatherUpdates = new BattleQueueWrapper(BattleQueueType.Weather, false);
         _backLog = new BattleQueueWrapper(BattleQueueType.Normal);
 
         _statusUpdates.OnActivation = OnEnterStatusUpdate;
@@ -82,16 +86,31 @@ public class BattleQueue : MonoBehaviour
 
     public void Reset()
     {
-        _queues.Clear();
-
-        // Specify order here.
-        _queues.Enqueue(_playerCommands);
-        _queues.Enqueue(_statusUpdates);
-        _queues.Enqueue(_weatherUpdates);
+        // REMOVE.
+        GenerateQueue(ExecutionType.Normal);
     }
 
-    public BaseAction Dequeue()
+    void GenerateQueue(ExecutionType executionType)
     {
+        _queues.Clear();
+
+        if (executionType == ExecutionType.Normal)
+        {
+            // Specify order here.
+            _queues.Enqueue(_playerCommands);
+            _queues.Enqueue(_statusUpdates);
+            _queues.Enqueue(_weatherUpdates);
+        }
+        else
+        {
+            _queues.Enqueue(_playerCommands);
+        }
+    }
+
+    BaseAction Dequeue(ExecutionType executionType)
+    {
+        GenerateQueue(executionType);
+
         if (_backLog.Queue.Count != 0)
             return _backLog.Queue.Dequeue();
 
@@ -125,6 +144,36 @@ public class BattleQueue : MonoBehaviour
                 return next != null && next.Queue.Count != 0 ? next.Queue.Dequeue() : null;
             }
         }
+    }
+
+    public void Execute(ExecutionType executionType)
+    {
+        var next = Dequeue(executionType);
+
+        if (next != null)
+        {
+            next.Completed += OnActionExecutionComplete;
+            next.Execute(_battleSystem);
+        }
+        else
+        {
+            LogEx.Log<BattleSystem>("No more battle actions left to execute.");
+
+            // TODO: Move Turn Count somewhere else.
+            //TurnCount++;
+
+            Reset();
+
+            Empty.InvokeSafe(this);
+        }
+    }
+
+    void OnActionExecutionComplete(BaseAction action)
+    {
+        action.Completed -= OnActionExecutionComplete;
+
+        if (action.IsGarbage)
+            Destroy(action.gameObject);
     }
 
     #region State Callbacks

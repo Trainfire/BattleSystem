@@ -1,32 +1,27 @@
 using UnityEngine;
 using System;
+using Framework;
+
+public enum ExecutionType
+{
+    Normal,
+    PostTurn,
+}
 
 public class BattleSystem : MonoBehaviour
 {
-    [SerializeField] private bool _autoReadyPlayers;
-    [SerializeField] private bool _enableManualStepping;
-
-    public event Action<BattleSystem> CommandsDepleted;
-
     public BattleRegistry Registry { get; private set; }
     public BattleHelper Helper { get; private set; }
     public BattleWeather Weather { get; private set; }
 
-    private BattleQueue _queue;
     private BattleCharacterHandler _characterHandler;
 
     public int TurnCount { get; private set; }
-
-    public bool AutoReadyPlayers { get { return _autoReadyPlayers; } }
-    public bool EnableManualStepping { get { return _enableManualStepping; } set { _enableManualStepping = true; } }
 
     void Awake()
     {
         Registry = gameObject.GetComponent<BattleRegistry>();
         Registry.PlayerAdded += OnPlayerAdded;
-
-        _queue = gameObject.GetComponent<BattleQueue>();
-        _queue.Initialize(this);
 
         _characterHandler = gameObject.GetComponent<BattleCharacterHandler>();
         _characterHandler.Initialize(this);
@@ -48,45 +43,34 @@ public class BattleSystem : MonoBehaviour
             Registry.RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + message), "BattleLog");
     }
 
-    /// <summary>
-    /// Do not call directly except for Editor purposes.
-    /// </summary>
-    public void Continue()
-    {
-        var next = _queue.Dequeue();
+    //public void Execute(ExecutionType executionType)
+    //{
+    //    var next = _queue.Dequeue(_executionType);
 
-        if (next != null)
-        {
-            next.Completed += OnActionExecutionComplete;
-            next.Execute(this);
-        }
-        else
-        {
-            LogEx.Log<BattleSystem>("No more battle actions left to execute.");
+    //    if (next != null)
+    //    {
+    //        next.Completed += OnActionExecutionComplete;
+    //        next.Execute(this);
+    //    }
+    //    else
+    //    {
+    //        LogEx.Log<BattleSystem>("No more battle actions left to execute.");
 
-            _queue.Reset();
+    //        // TODO: Move Turn Count somewhere else.
+    //        //TurnCount++;
 
-            if (CommandsDepleted != null)
-                CommandsDepleted.Invoke(this);
+    //        _queue.Reset();
 
-            TurnCount++;
-        }
-    }
+    //        if (CommandsDepleted != null)
+    //            CommandsDepleted.Invoke(this);
+    //    }
+    //}
 
-    void OnActionExecutionComplete(BaseAction action)
-    {
-        action.Completed -= OnActionExecutionComplete;
+    //void OnActionExecutionComplete(BaseAction action)
+    //{
+    //    action.Completed -= OnActionExecutionComplete;
 
-        if (action.IsGarbage)
-            Destroy(action.gameObject);
-
-        if (!_enableManualStepping)
-            Continue();
-    }
-
-    void LateUpdate()
-    {
-        if (Input.GetKeyUp(KeyCode.Space) && _enableManualStepping)
-            Continue();
-    }
+    //    if (action.IsGarbage)
+    //        Destroy(action.gameObject);
+    //}
 }

@@ -13,13 +13,16 @@ public class PlayerEditor : Editor
 
         _player = target as Player;
 
-        if (_player.IsReady)
-            return;
+        if (!_player.IsReady)
+        {
+            if (GUILayout.Button("Attack"))
+                _player.Attack();
 
-        if (GUILayout.Button("Attack"))
-            _player.Attack();
+            if (GUILayout.Button("Switch"))
+                _player.Switch();
+        }
 
-        if (GUILayout.Button("Switch"))
-            _player.Switch();
+        if (GUILayout.Button("Replace"))
+            _player.SelectReplacement();
     }
 }

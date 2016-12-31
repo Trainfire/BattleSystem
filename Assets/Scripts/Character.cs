@@ -27,6 +27,7 @@ public class Character : MonoBehaviour
     {
         Owner = gameObject.GetComponentInParent<Player>();
         Health = gameObject.AddComponent<Health>();
+        Health.Changed += OnHealthChanged;
 
         Status = gameObject.AddComponent<CharacterStatus>();
         Status.Initialize(this);
@@ -34,6 +35,14 @@ public class Character : MonoBehaviour
         _battleEntities = new List<CharacterListener>();
         RegisterListener(HeldItem);
         RegisterListener(Ability);
+    }
+
+    void OnHealthChanged(HealthChangeEvent obj)
+    {
+        if (obj.NewValue <= 0)
+        {
+            ActiveState = ActiveState.Fainted;
+        }
     }
 
     void RegisterListener(GameObject prototype)

@@ -50,6 +50,10 @@ public class BattleRegistry : MonoBehaviour
         RegisterAction(action, BattleQueueType.Normal);
     }
 
+    /// <summary>
+    /// TODO: Use Typing to only allow actions of type PlayerCommnd.
+    /// </summary>
+    /// <param name="action"></param>
     public void RegisterPlayerCommand(BaseAction action)
     {
         RegisterAction(action, BattleQueueType.PlayerCommand);

@@ -14,7 +14,7 @@ public class Health : MonoBehaviour
 {
     public event Action<HealthChangeEvent> Changed;
 
-    public int Current { get; private set; }
+    public int Current;
 
     void Awake()
     {

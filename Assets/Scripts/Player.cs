@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public event Action<Player> ReadyStateChanged;
     public event Action<SwitchCommand> SwitchedCharacter;
     public event Action<AttackCommand> AttackSelected;
+    public event Action<ReplaceCommand> ReplacementCharacterSelected;
 
     public PlayerParty Party { get; private set; }
     public Character ActiveCharacter { get { return Party.InBattle; } }
@@ -61,6 +62,16 @@ public class Player : MonoBehaviour
         var switchTarget = Party.Characters.Where(x => x != Party.InBattle).FirstOrDefault();
         SwitchedCharacter.InvokeSafe(SwitchCommand.Create(this, switchTarget));
         SetReady();
+    }
+
+    /// <summary>
+    /// TEMP!!! Needs to include Character as an argument.
+    /// </summary>
+    public void SelectReplacement()
+    {
+        // TEMP: Just select whichever character hasn't fainted.
+        var replacement = Party.Characters.FirstOrDefault(x => x.ActiveState != ActiveState.Fainted);
+        ReplacementCharacterSelected.InvokeSafe(ReplaceCommand.Create(this, replacement));
     }
 
     public void SetReady()

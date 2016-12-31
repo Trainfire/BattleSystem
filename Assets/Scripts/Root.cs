@@ -12,7 +12,10 @@ public class Root : MonoBehaviour
             battleSystem.Registry.RegisterPlayer(player);
         }
 
-        var battleStates = gameObject.AddComponent<BattleStates>();
-        battleStates.Initialize(battleSystem);
+        var queue = gameObject.GetComponent<BattleQueue>();
+        queue.Initialize(battleSystem);
+
+        var coordinator = gameObject.GetComponent<BattleCoordinator>();
+        coordinator.Initialize(battleSystem, queue);
     }
 }
