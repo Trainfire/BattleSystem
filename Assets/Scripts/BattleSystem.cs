@@ -11,8 +11,12 @@ public class BattleSystem : MonoBehaviour
 
     public event Action<Player> PlayerAdded;
     public event Action<Player> PlayerRemoved;
-    public event Action<Character> CharacterAdded;
-    public event Action<Character> CharacterRemoved;
+
+    public event Action<Character> CharacterAddedToSlot;
+    public event Action<Character> PostCharacterAddedToSlot;
+    public event Action<Character> CharacterRemovedFromSlot;
+    public event Action<Character> PostCharacterRemovedFromSlot;
+
     public event Action<BaseAction, BattleQueueType> ActionRegistered;
 
     private List<Player> _players;
@@ -40,11 +44,14 @@ public class BattleSystem : MonoBehaviour
         _activeCharacters = new List<Character>();
         _fieldSides = new List<FieldSide>();
 
+        Helper = gameObject.GetOrAddComponent<BattleHelper>();
+        Weather = gameObject.GetOrAddComponent<BattleWeather>();
+
         // 2 sides. 1 slot each.
         for (int i = 0; i < 2; i++)
         {
             var fieldSide = new GameObject("Field Side").AddComponent<FieldSide>();
-            fieldSide.Initialize(i, 1);
+            fieldSide.Initialize(this, i, 1);
 
             foreach (var slot in fieldSide.Slots)
             {
@@ -54,9 +61,6 @@ public class BattleSystem : MonoBehaviour
 
             _fieldSides.Add(fieldSide);
         }
-
-        Helper = gameObject.GetOrAddComponent<BattleHelper>();
-        Weather = gameObject.GetOrAddComponent<BattleWeather>();
     }
 
     public void Log(string message, params object[] args)
@@ -163,8 +167,11 @@ public class BattleSystem : MonoBehaviour
             // Assign character into player slot.
             //character.Owner.FieldSide.Register(character);
 
-            if (CharacterAdded != null)
-                CharacterAdded.Invoke(character);
+            if (CharacterAddedToSlot != null)
+                CharacterAddedToSlot.Invoke(character);
+
+            if (PostCharacterAddedToSlot != null)
+                PostCharacterAddedToSlot.Invoke(character);
         }
         else
         {
@@ -180,8 +187,11 @@ public class BattleSystem : MonoBehaviour
 
             _activeCharacters.Remove(character);
 
-            if (CharacterRemoved != null)
-                CharacterRemoved.Invoke(character);
+            if (CharacterRemovedFromSlot != null)
+                CharacterRemovedFromSlot.Invoke(character);
+
+            if (PostCharacterRemovedFromSlot != null)
+                PostCharacterRemovedFromSlot.Invoke(character);
         }
         else
         {

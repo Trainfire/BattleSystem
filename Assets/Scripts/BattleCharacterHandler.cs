@@ -10,8 +10,8 @@ class BattleCharacterHandler : MonoBehaviour
     {
         _battleSystem = battleSystem;
         _battleSystem.PlayerAdded += OnPlayerAdded;
-        _battleSystem.CharacterAdded += OnCharacterAdded;
-        _battleSystem.CharacterRemoved += OnCharacterRemoved;
+        _battleSystem.CharacterAddedToSlot += OnCharacterAdded;
+        _battleSystem.CharacterRemovedFromSlot += OnCharacterRemoved;
     }
 
     void OnPlayerAdded(Player player)
@@ -55,7 +55,7 @@ class BattleCharacterHandler : MonoBehaviour
     {
         string str = "";
 
-        if (arg.Type == AddRemoveType.Added)
+        if (arg.Type == AddRemoveType.Add)
         {
             str = _battleSystem.Helper.GetConditionAddedMessage(arg.Character, arg.Condition);
         }

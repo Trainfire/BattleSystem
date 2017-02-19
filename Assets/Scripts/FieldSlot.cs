@@ -9,6 +9,12 @@ public class FieldSlot : MonoBehaviour
     public event Action<Character> CharacterRemoved;
 
     public Character Character { get; private set; }
+    public FieldSide FieldSide { get; private set; }
+
+    public void Initialize(FieldSide fieldSide)
+    {
+        FieldSide = fieldSide;
+    }
 
     public void Assign(Character character)
     {

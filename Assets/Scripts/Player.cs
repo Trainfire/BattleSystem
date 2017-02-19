@@ -36,7 +36,7 @@ public class Player : MonoBehaviour
 
     public void AssignFieldSide(FieldSide fieldSide)
     {
-        LogEx.Log<Player>("Assigned to field {0}", fieldSide.ID);
+        LogEx.Log<Player>("{0} assigned to field {1}", name, fieldSide.ID);
         FieldSide = fieldSide;
     }
 

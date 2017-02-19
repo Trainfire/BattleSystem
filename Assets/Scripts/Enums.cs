@@ -27,6 +27,12 @@ public enum ConditionType
     Sleep,
 }
 
+public enum FieldEffectType
+{
+    Spikes,
+    StealthRock,
+}
+
 public enum Status
 {
     None,
@@ -37,8 +43,9 @@ public enum Status
 
 public enum AddRemoveType
 {
-    Added,
-    Removed,
+    Add,
+    Remove,
+    RemoveAll,
 }
 
 public enum ActiveState

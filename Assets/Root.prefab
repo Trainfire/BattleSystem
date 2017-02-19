@@ -22,11 +22,10 @@ GameObject:
   - 114: {fileID: 114000012043704992}
   - 114: {fileID: 114000012529366702}
   - 114: {fileID: 114000010183005408}
-  - 114: {fileID: 114000010270808506}
   - 114: {fileID: 114000011761789094}
   - 114: {fileID: 114000012998927846}
-  - 114: {fileID: 114000014049852330}
   - 114: {fileID: 114000011115517384}
+  - 114: {fileID: 114000011175865924}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -60,18 +59,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _autoReadyPlayers: 0
   _enableManualStepping: 1
---- !u!114 &114000010270808506
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013539460834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bbe03fd1482faf94fb7e78acb361adc8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _logRegistrations: 0
 --- !u!114 &114000011115517384
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -83,6 +70,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82d4462c56a947640a7484edb0595f27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114000011175865924
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013539460834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe03fd1482faf94fb7e78acb361adc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _logRegistrations: 1
 --- !u!114 &114000011761789094
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -118,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c5e0152630c1b04a937db2b91a53635, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _executionType: 0
+  _logRegistrations: 0
 --- !u!114 &114000012998927846
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -131,6 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Poison: {fileID: 1000011293771328, guid: 54b45c50eb3f70249b02d6697d2c23da, type: 2}
+  Spikes: {fileID: 0}
   ConfusionParameters:
     OnEvaluateMessage: '{TARGET} is confused!'
     OnFailMessage: 
@@ -155,15 +155,5 @@ MonoBehaviour:
     MinTurns: 3
     MaxTurns: 5
     WakeUpChance: 0.25
---- !u!114 &114000014049852330
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013539460834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfd0f024957b91748bf6b233e135ab41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _logRegistrations: 0
+  SpikesParameters:
+    PercentageDamagePerLevel: 050000000a0000000f000000

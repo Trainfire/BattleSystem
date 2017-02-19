@@ -79,7 +79,7 @@ public class CharacterStatus : MonoBehaviour
             condition.Removed += RemoveCondition;
 
             if (ConditionChanged != null)
-                ConditionChanged.Invoke(new ConditionChangeEvent(_character, condition.Type, AddRemoveType.Added));
+                ConditionChanged.Invoke(new ConditionChangeEvent(_character, condition.Type, AddRemoveType.Add));
         }
     }
 
@@ -101,7 +101,7 @@ public class CharacterStatus : MonoBehaviour
                 Current = Status.None;
 
             if (ConditionChanged != null)
-                ConditionChanged.Invoke(new ConditionChangeEvent(_character, condition.Type, AddRemoveType.Removed));
+                ConditionChanged.Invoke(new ConditionChangeEvent(_character, condition.Type, AddRemoveType.Remove));
         }
     }
 

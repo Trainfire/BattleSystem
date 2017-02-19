@@ -4,10 +4,15 @@ using System;
 public class BattleHelper : MonoBehaviour
 {
     public GameObject Poison;
+    public GameObject Spikes;
 
+    [Header("Status Effects")]
     public ConfusionParameters ConfusionParameters;
     public ParalysisParameters ParalysisParameters;
     public SleepParameters SleepParameters;
+
+    [Header("Field Effects")]
+    public FieldEffectSpikesParameters SpikesParameters;
 
     public bool SetPlayerStatus(Status status, Character target)
     {
