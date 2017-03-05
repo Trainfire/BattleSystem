@@ -65,6 +65,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Log: 1
-  Affector: 0
+  Affector: 1
   _actionType: 0
   _fieldEffectType: 0
