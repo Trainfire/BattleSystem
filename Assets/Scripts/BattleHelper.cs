@@ -114,6 +114,12 @@ public class BattleHelper : MonoBehaviour
                     confusion.Parameters = ConfusionParameters;
                     conditionComp = confusion;
                     break;
+                case ConditionType.MoveLock:
+                    conditionComp = target.gameObject.AddComponent<ConditionMoveLock>();
+                    break;
+                case ConditionType.SwitchLock:
+                    conditionComp = target.gameObject.AddComponent<ConditionSwitchLock>();
+                    break;
             }
 
             target.Status.AddCondition(conditionComp);

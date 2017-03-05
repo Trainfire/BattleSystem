@@ -56,8 +56,7 @@ public class Player : MonoBehaviour
 
     public void Switch(Character switchTarget)
     {
-        SwitchedCharacter.InvokeSafe(SwitchCommand.Create(this, switchTarget));
-        SetReady();
+        CreateSwitch(switchTarget);
     }
 
     /// <summary>
@@ -67,8 +66,7 @@ public class Player : MonoBehaviour
     public void Switch()
     {
         var switchTarget = Party.Characters.Where(x => x != Party.InBattle).FirstOrDefault();
-        SwitchedCharacter.InvokeSafe(SwitchCommand.Create(this, switchTarget));
-        SetReady();
+        CreateSwitch(switchTarget);
     }
 
     /// <summary>
@@ -96,5 +94,18 @@ public class Player : MonoBehaviour
     public void ResetReady()
     {
         IsReady = false;
+    }
+
+    void CreateSwitch(Character switchTarget)
+    {
+        if (Party.InBattle.Status.HasCondition(ConditionType.SwitchLock))
+        {
+            Debug.LogWarning("Cannot switch out due to SwitchLock!");
+        }
+        else
+        {
+            SwitchedCharacter.InvokeSafe(SwitchCommand.Create(this, switchTarget));
+            SetReady();
+        }
     }
 }

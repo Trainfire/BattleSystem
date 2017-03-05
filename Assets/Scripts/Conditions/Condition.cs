@@ -4,8 +4,8 @@ using System;
 [Serializable]
 public class ConditionParameters
 {
-    public string OnEvaluateMessage;
-    public string OnFailMessage;
+    public string OnEvaluateMessage = "";
+    public string OnFailMessage = "";
 
     public TargetedAction OnFailAction;
     public TargetedAction OnRemoveAction;

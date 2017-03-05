@@ -19,12 +19,15 @@ class BattleLogger : TargetedAction
 
     public static string Format(string message, Character source, Character reciever)
     {
-        if (source != null)
-            message = message.Replace("{SOURCE}", source.name);
+        if (message != null)
+        {
+            if (source != null)
+                message = message.Replace("{SOURCE}", source.name);
 
-        if (reciever != null)
-            message = message.Replace("{TARGET}", reciever.name);
+            if (reciever != null)
+                message = message.Replace("{TARGET}", reciever.name);
+        }
 
-        return message;
+        return message != null ? message : string.Empty;
     }
 }

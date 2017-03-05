@@ -17,6 +17,13 @@ public class SwitchCommand : BaseAction
     {
         if (Player.Party.InBattle != null)
         {
+            if (Player.Party.InBattle.Status.HasCondition(ConditionType.SwitchLock))
+            {
+                battleSystem.Log("{0} cannot be switched out!", Player.Party.InBattle.name);
+                TriggerCompletion();
+                return;
+            }
+
             battleSystem.Log("{0} called back {1}!", Player.name, Player.Party.InBattle.name);
             battleSystem.RegisterAction(Player.Party.InBattle.SwitchOut, "Switch Out");
         }

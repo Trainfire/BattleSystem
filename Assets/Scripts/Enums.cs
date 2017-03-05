@@ -25,6 +25,8 @@ public enum ConditionType
     Paralysis,
     Confusion,
     Sleep,
+    MoveLock,
+    SwitchLock,
 }
 
 public enum FieldEffectType
