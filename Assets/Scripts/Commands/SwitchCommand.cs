@@ -23,6 +23,8 @@ public class SwitchCommand : BaseAction
 
         battleSystem.Log("{0} sent in {1}!", Player.name, SwitchTarget.name);
         battleSystem.RegisterAction(SwitchTarget.SwitchIn, "Switch In");
+
+        TriggerCompletion();
     }
 
     public static SwitchCommand Create(Player player, Character switchTarget)
