@@ -40,7 +40,7 @@ public class BattleCoordinator : MonoBehaviour
         return instance;
     }
 
-    public void Initialize(BattleSystem system, BattleQueue queue)
+    public void Initialize(BattleSystem system, BattleQueue queue, SetupParams parameters)
     {
         _system = system;
         _queue = queue;
@@ -50,6 +50,9 @@ public class BattleCoordinator : MonoBehaviour
         _stateExecute = RegisterState<BattleStateExecute>();
         _statePostTurn = RegisterState<BattleStatePostTurn>();
         _statePostTurnExecute = RegisterState<BattleStatePostTurnExecute>();
+
+        // Register players into battle.
+        parameters.Players.ForEach(x => system.RegisterPlayer(x.Player, x.FieldSide));
 
         SetState(BattleStateID.Start);
     }
@@ -145,16 +148,12 @@ public class BattleStateStart : BattleState
 
     public override void OnStart()
     {
-        // Use for any initialization logic.
-        var players = GameObject.FindObjectsOfType<Player>();
+        // Insert any battle initialization logic here.
 
-        for (int i = 0; i < players.Length; i++)
+        // Send in each player's first character.
+        foreach (var player in Coordinator.System.Players)
         {
-            int sideID = i % 2;
-            Coordinator.System.RegisterPlayer(players[i], sideID);
-
-            // Send in first character.
-            Coordinator.Queue.RegisterPlayerCommand(SwitchCommand.Create(players[i], players[i].Party.Characters[i]));
+            Coordinator.Queue.RegisterPlayerCommand(SwitchCommand.Create(player, player.Party.Characters[0]));
         }
 
         Coordinator.Queue.Empty += OnQueueEmpty;

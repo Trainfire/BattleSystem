@@ -1,19 +1,29 @@
-using UnityEngine;
-using Framework;
+﻿using UnityEngine;
+using System.Collections;
 
 public class Root : MonoBehaviour
 {
-    void Start()
+    public void Start()
     {
-        var battleSystem = gameObject.GetOrAddComponent<BattleSystem>();
+        var battle = GetComponentInChildren<Battle>();
 
-        var queue = gameObject.GetOrAddComponent<BattleQueue>();
-        queue.Initialize(battleSystem);
+        if (battle != null)
+        {
+            var setupParams = new SetupParams();
+            var players = FindObjectsOfType<Player>();
 
-        var handler = gameObject.GetOrAddComponent<BattleCharacterHandler>();
-        handler.Initialize(battleSystem);
+            // Register each player to a side.
+            for (int i = 0; i < players.Length; i++)
+            {
+                int sideID = i % 2;
+                setupParams.AddPlayer(players[i], sideID);
+            }
 
-        var coordinator = gameObject.GetOrAddComponent<BattleCoordinator>();
-        coordinator.Initialize(battleSystem, queue);
+            battle.Initialize(setupParams);
+        }
+        else
+        {
+            LogEx.LogError<Root>("Failed to find Battle as child component of Root. Make sure there is a child GameObject with a Battle component attached.");
+        }
     }
 }
