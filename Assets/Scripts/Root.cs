@@ -3,11 +3,11 @@ using System.Collections;
 
 public class Root : MonoBehaviour
 {
+    public Battle BattlePrototype;
+
     public void Start()
     {
-        var battle = GetComponentInChildren<Battle>();
-
-        if (battle != null)
+        if (BattlePrototype != null)
         {
             var setupParams = new SetupParams();
             var players = FindObjectsOfType<Player>();
@@ -19,11 +19,12 @@ public class Root : MonoBehaviour
                 setupParams.AddPlayer(players[i], sideID);
             }
 
-            battle.Initialize(setupParams);
+            var battleInstance = Instantiate(BattlePrototype);
+            battleInstance.Initialize(setupParams);
         }
         else
         {
-            LogEx.LogError<Root>("Failed to find Battle as child component of Root. Make sure there is a child GameObject with a Battle component attached.");
+            LogEx.LogError<Root>("The Battle reference is missing or null. Make sure that the Battle field is referencing a prefab.");
         }
     }
 }
