@@ -18,6 +18,7 @@ public class BattleSystem : MonoBehaviour
     public event Action<Character> PostCharacterRemovedFromSlot;
 
     public event Action<BaseAction, BattleQueueType> ActionRegistered;
+    public event Action<string> LogPosted;
 
     private List<Player> _players;
     private List<Character> _activeCharacters;
@@ -66,7 +67,16 @@ public class BattleSystem : MonoBehaviour
     public void Log(string message, params object[] args)
     {
         if (!string.IsNullOrEmpty(message))
+        {
             RegisterAction(() => LogEx.Log<BattleSystem>("Battle Log: " + message), "BattleLog");
+
+            RegisterAction(() =>
+            {
+                LogEx.Log<BattleSystem>("Battle Log: " + message);
+                LogPosted.InvokeSafe(message);
+
+            }, "BattleLog");
+        }
     }
 
     void RegisterAction(BaseAction action, BattleQueueType type)

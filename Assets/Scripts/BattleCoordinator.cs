@@ -32,6 +32,7 @@ public class BattleCoordinator : MonoBehaviour
     public BattleSystem System { get { return _system; } }
     public BattleQueue Queue { get { return _queue; } }
     public int TurnCount { get; private set; }
+    public BattleStateID State { get { return _state.ID; } }
 
     T RegisterState<T>() where T : BattleState
     {
