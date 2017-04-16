@@ -33,7 +33,6 @@ class BattleQueueDebugger : MonoBehaviour
         }
         else
         {
-            DrawQueue(_battleQueue.HealthUpdates);
             DrawQueue(_battleQueue.GenericUpdates);
             DrawQueue(_battleQueue.PlayerCommands);
             DrawQueue(_battleQueue.StatusUpdates);

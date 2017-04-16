@@ -7,7 +7,6 @@ using Framework;
 public enum BattleQueueType
 {
     GenericUpdate,
-    HealthUpdate,
     PlayerCommand,
     StatusUpdate,
     Weather,
@@ -42,20 +41,17 @@ public class BattleQueue : MonoBehaviour
         get
         {
             return _linearQueues.ToList().TrueForAll(x => x.Queue.Count == 0)
-                && _genericUpdates.Queue.Count == 0
-                && _healthUpdates.Queue.Count == 0;
+                && _genericUpdates.Queue.Count == 0;
         }
     }
 
     [SerializeField] private bool _logRegistrations;
 
-    public List<BaseAction> HealthUpdates { get { return _healthUpdates.Queue.ToList(); } }
     public List<BaseAction> GenericUpdates { get { return _genericUpdates.Queue.ToList(); } }
     public List<BaseAction> PlayerCommands { get { return _playerCommands.Queue.ToList(); } }
     public List<BaseAction> StatusUpdates { get { return _statusUpdates.Queue.ToList(); } }
     public List<BaseAction> WeatherUpdates { get { return _weatherUpdates.Queue.ToList(); } }
 
-    private BattleQueueWrapper _healthUpdates;
     private BattleQueueWrapper _genericUpdates;
     private BattleQueueWrapper _playerCommands;
     private BattleQueueWrapper _statusUpdates;
@@ -73,8 +69,7 @@ public class BattleQueue : MonoBehaviour
         _linearQueues = new Queue<BattleQueueWrapper>();
 
         // This order maps to the order in which each queue is evaluated.
-        // Health updates are always checked first, then generic updates, then player commands, etc...
-        _healthUpdates = new BattleQueueWrapper(BattleQueueType.HealthUpdate, null);
+        // Generic updates are always checked first, then player commands, etc...
         _genericUpdates = new BattleQueueWrapper(BattleQueueType.GenericUpdate, null);
 
         _playerCommands = new BattleQueueWrapper(BattleQueueType.PlayerCommand, null);
@@ -90,9 +85,6 @@ public class BattleQueue : MonoBehaviour
         {
             case BattleQueueType.GenericUpdate:
                 _genericUpdates.Queue.Enqueue(action);
-                break;
-            case BattleQueueType.HealthUpdate:
-                _healthUpdates.Queue.Enqueue(action);
                 break;
             case BattleQueueType.PlayerCommand:
                 _playerCommands.Queue.Enqueue(action);
@@ -134,9 +126,6 @@ public class BattleQueue : MonoBehaviour
     BaseAction Dequeue(ExecutionType executionType)
     {
         GenerateQueue(executionType);
-
-        if (_healthUpdates.Queue.Count != 0)
-            return _healthUpdates.Queue.Dequeue();
 
         if (_genericUpdates.Queue.Count != 0)
             return _genericUpdates.Queue.Dequeue();

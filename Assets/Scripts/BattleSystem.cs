@@ -88,11 +88,6 @@ public class BattleSystem : MonoBehaviour
         RegisterAction(action, BattleQueueType.StatusUpdate);
     }
 
-    public void RegisterHealthUpdate(UpdateHealth updateHealth)
-    {
-        RegisterAction(updateHealth, BattleQueueType.HealthUpdate);
-    }
-
     public void RegisterAction(Action action, string name)
     {
         RegisterAction(AnonAction.Create(action, name), BattleQueueType.GenericUpdate);

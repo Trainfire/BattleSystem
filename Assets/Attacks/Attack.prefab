@@ -21,9 +21,12 @@ GameObject:
   - 4: {fileID: 4000013213702038}
   - 114: {fileID: 114000011325054062}
   - 114: {fileID: 114000013428283780}
+  - 114: {fileID: 114000013072487004}
   - 114: {fileID: 114000011042401332}
+  - 114: {fileID: 114000011651727248}
   - 114: {fileID: 114000011796401224}
   - 114: {fileID: 114000010682720668}
+  - 114: {fileID: 114000011581191104}
   m_Layer: 0
   m_Name: Attack
   m_TagString: DontDestroyOnTrigger
@@ -84,6 +87,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Log: 0
+--- !u!114 &114000011581191104
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012589421886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2243f3abd3e7e648a3475a692432ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Log: 0
+--- !u!114 &114000011651727248
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012589421886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8789afbe15b4114f8881703f75c42c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Log: 0
+  Message: Hit twice!
 --- !u!114 &114000011796401224
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,6 +125,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Log: 0
   Message: '{SOURCE} was hurt by recoil!'
+--- !u!114 &114000013072487004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012589421886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8789afbe15b4114f8881703f75c42c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Log: 0
+  Message: Hit once!
 --- !u!114 &114000013428283780
 MonoBehaviour:
   m_ObjectHideFlags: 1
