@@ -69,6 +69,6 @@ class BattleCharacterHandler : MonoBehaviour
 
     void OnHealthChanged(HealthChangeEvent arg)
     {
-        _battleSystem.RegisterAction(UpdateHealth.Create(arg));
+        _battleSystem.RegisterHealthUpdate(UpdateHealth.Create(arg));
     }
 }

@@ -6,7 +6,8 @@ using Framework;
 
 public enum BattleQueueType
 {
-    Normal,
+    GenericUpdate,
+    HealthUpdate,
     PlayerCommand,
     StatusUpdate,
     Weather,
@@ -35,30 +36,32 @@ public class BattleQueueWrapper
 public class BattleQueue : MonoBehaviour
 {
     public event Action<BattleQueue> Emptied;
+
     public bool Empty
     {
         get
         {
-            return _playerCommands.Queue.Count == 0
-              && _statusUpdates.Queue.Count == 0
-              && _weatherUpdates.Queue.Count == 0
-              && _backLog.Queue.Count == 0;
+            return _linearQueues.ToList().TrueForAll(x => x.Queue.Count == 0)
+                && _genericUpdates.Queue.Count == 0
+                && _healthUpdates.Queue.Count == 0;
         }
     }
 
     [SerializeField] private bool _logRegistrations;
 
+    public List<BaseAction> HealthUpdates { get { return _healthUpdates.Queue.ToList(); } }
+    public List<BaseAction> GenericUpdates { get { return _genericUpdates.Queue.ToList(); } }
     public List<BaseAction> PlayerCommands { get { return _playerCommands.Queue.ToList(); } }
     public List<BaseAction> StatusUpdates { get { return _statusUpdates.Queue.ToList(); } }
     public List<BaseAction> WeatherUpdates { get { return _weatherUpdates.Queue.ToList(); } }
-    public List<BaseAction> BackLog { get { return _backLog.Queue.ToList(); } }
 
+    private BattleQueueWrapper _healthUpdates;
+    private BattleQueueWrapper _genericUpdates;
     private BattleQueueWrapper _playerCommands;
     private BattleQueueWrapper _statusUpdates;
     private BattleQueueWrapper _weatherUpdates;
-    private BattleQueueWrapper _backLog;
 
-    private Queue<BattleQueueWrapper> _queues;
+    private Queue<BattleQueueWrapper> _linearQueues;
 
     private BattleSystem _battleSystem;
 
@@ -67,13 +70,17 @@ public class BattleQueue : MonoBehaviour
         _battleSystem = battleSystem;
         _battleSystem.ActionRegistered += OnActionRegistered;
 
-        _queues = new Queue<BattleQueueWrapper>();
+        _linearQueues = new Queue<BattleQueueWrapper>();
+
+        // This order maps to the order in which each queue is evaluated.
+        // Health updates are always checked first, then generic updates, then player commands, etc...
+        _healthUpdates = new BattleQueueWrapper(BattleQueueType.HealthUpdate, null);
+        _genericUpdates = new BattleQueueWrapper(BattleQueueType.GenericUpdate, null);
 
         _playerCommands = new BattleQueueWrapper(BattleQueueType.PlayerCommand, null);
         _statusUpdates = new BattleQueueWrapper(BattleQueueType.StatusUpdate, OnEnterStatusUpdate, false);
         _weatherUpdates = new BattleQueueWrapper(BattleQueueType.Weather, OnEnterWeather, false);
-        _backLog = new BattleQueueWrapper(BattleQueueType.Normal, null);
-
+        
         Reset();
     }
 
@@ -81,8 +88,11 @@ public class BattleQueue : MonoBehaviour
     {
         switch (type)
         {
-            case BattleQueueType.Normal:
-                _backLog.Queue.Enqueue(action);
+            case BattleQueueType.GenericUpdate:
+                _genericUpdates.Queue.Enqueue(action);
+                break;
+            case BattleQueueType.HealthUpdate:
+                _healthUpdates.Queue.Enqueue(action);
                 break;
             case BattleQueueType.PlayerCommand:
                 _playerCommands.Queue.Enqueue(action);
@@ -106,18 +116,18 @@ public class BattleQueue : MonoBehaviour
 
     void GenerateQueue(ExecutionType executionType)
     {
-        _queues.Clear();
+        _linearQueues.Clear();
 
         if (executionType == ExecutionType.Normal)
         {
             // Specify order here.
-            _queues.Enqueue(_playerCommands);
-            _queues.Enqueue(_statusUpdates);
-            _queues.Enqueue(_weatherUpdates);
+            _linearQueues.Enqueue(_playerCommands);
+            _linearQueues.Enqueue(_statusUpdates);
+            _linearQueues.Enqueue(_weatherUpdates);
         }
         else
         {
-            _queues.Enqueue(_playerCommands);
+            _linearQueues.Enqueue(_playerCommands);
         }
     }
 
@@ -125,27 +135,30 @@ public class BattleQueue : MonoBehaviour
     {
         GenerateQueue(executionType);
 
-        if (_backLog.Queue.Count != 0)
-            return _backLog.Queue.Dequeue();
+        if (_healthUpdates.Queue.Count != 0)
+            return _healthUpdates.Queue.Dequeue();
 
-        if (_queues.Count == 0)
+        if (_genericUpdates.Queue.Count != 0)
+            return _genericUpdates.Queue.Dequeue();
+
+        if (_linearQueues.Count == 0)
         {
             return null;
         }
         else
         {
-            if (_queues.Peek().Queue.Count != 0)
+            if (_linearQueues.Peek().Queue.Count != 0)
             {
-                return _queues.Peek().Queue.Dequeue();
+                return _linearQueues.Peek().Queue.Dequeue();
             }
             else
             {
                 // Find the next non-empty queue.
                 BattleQueueWrapper next = null;
 
-                while (next == null || next.Queue.Count == 0 && _queues.Count != 0)
+                while (next == null || next.Queue.Count == 0 && _linearQueues.Count != 0)
                 {
-                    next = _queues.Dequeue();
+                    next = _linearQueues.Dequeue();
 
                     // Activate the next queue.
                     if (next.OnActivation != null)
@@ -221,8 +234,8 @@ public class BattleQueue : MonoBehaviour
 
         switch (type)
         {
-            case BattleQueueType.Normal:
-                _backLog.Queue.Enqueue(action);
+            case BattleQueueType.GenericUpdate:
+                _genericUpdates.Queue.Enqueue(action);
                 break;
             case BattleQueueType.PlayerCommand:
                 _playerCommands.Queue.Enqueue(action);
@@ -249,12 +262,12 @@ public class BattleQueue : MonoBehaviour
 
     public void RegisterAction(Action action, string name)
     {
-        RegisterAction(AnonAction.Create(action, name), BattleQueueType.Normal);
+        RegisterAction(AnonAction.Create(action, name), BattleQueueType.GenericUpdate);
     }
 
     public void RegisterAction(BaseAction action)
     {
-        RegisterAction(action, BattleQueueType.Normal);
+        RegisterAction(action, BattleQueueType.GenericUpdate);
     }
 
     public void RegisterPlayerCommand(BaseAction action)

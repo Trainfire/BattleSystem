@@ -21,6 +21,7 @@ GameObject:
   - 4: {fileID: 4000013213702038}
   - 114: {fileID: 114000011325054062}
   - 114: {fileID: 114000013428283780}
+  - 114: {fileID: 114000011042401332}
   - 114: {fileID: 114000011796401224}
   - 114: {fileID: 114000010682720668}
   m_Layer: 0
@@ -57,6 +58,20 @@ MonoBehaviour:
   Log: 0
   Affector: 0
   Amount: -5
+--- !u!114 &114000011042401332
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000012589421886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ba326fc5222bd148b9a39e6ebe30004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Log: 0
+  Affector: 1
+  Amount: -20
 --- !u!114 &114000011325054062
 MonoBehaviour:
   m_ObjectHideFlags: 1
