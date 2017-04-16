@@ -156,7 +156,7 @@ public class BattleStateStart : BattleState
             Coordinator.Queue.RegisterPlayerCommand(SwitchCommand.Create(player, player.Party.Characters[0]));
         }
 
-        Coordinator.Queue.Empty += OnQueueEmpty;
+        Coordinator.Queue.Emptied += OnQueueEmpty;
         OnContinue();
     }
 
@@ -168,7 +168,7 @@ public class BattleStateStart : BattleState
 
     void OnQueueEmpty(BattleQueue obj)
     {
-        Coordinator.Queue.Empty -= OnQueueEmpty;
+        Coordinator.Queue.Emptied -= OnQueueEmpty;
         End();
     }
 }
@@ -217,7 +217,7 @@ public class BattleStateExecute : BattleState
 
         LogEx.Log<BattleStateExecute>("#--- Begin Turn " + (Coordinator.TurnCount) + " ---#");
 
-        Coordinator.Queue.Empty += OnCommandsDepleted;
+        Coordinator.Queue.Emptied += OnCommandsDepleted;
 
         OnContinue();
     }
@@ -232,7 +232,7 @@ public class BattleStateExecute : BattleState
     {
         LogEx.Log<BattleStateExecute>("#--- End Turn " + (Coordinator.TurnCount) + " ---#");
 
-        queue.Empty -= OnCommandsDepleted;
+        queue.Emptied -= OnCommandsDepleted;
         End();
     }
 }
@@ -293,7 +293,7 @@ public class BattleStatePostTurnExecute : BattleState
     {
         base.OnStart();
 
-        Coordinator.Queue.Empty += OnCommandsDepleted;
+        Coordinator.Queue.Emptied += OnCommandsDepleted;
 
         OnContinue();
     }
@@ -307,7 +307,7 @@ public class BattleStatePostTurnExecute : BattleState
 
     void OnCommandsDepleted(BattleQueue queue)
     {
-        queue.Empty -= OnCommandsDepleted;
+        queue.Emptied -= OnCommandsDepleted;
         End();
     }
 }

@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Framework;
 
 public enum BattleQueueType
@@ -20,11 +21,12 @@ public class BattleQueueWrapper
     /// <summary>
     /// Called when the queue becomes active.
     /// </summary>
-    public Action<BattleSystem> OnActivation { get; set; }
+    public Action<BattleSystem> OnActivation { get; private set; }
 
-    public BattleQueueWrapper(BattleQueueType type, bool executePostTurn = true)
+    public BattleQueueWrapper(BattleQueueType type, Action<BattleSystem> onActivation, bool executePostTurn = true)
     {
         Type = type;
+        OnActivation = onActivation;
         Queue = new Queue<BaseAction>();
         ExecutePostTurn = executePostTurn;
     }
@@ -32,9 +34,24 @@ public class BattleQueueWrapper
 
 public class BattleQueue : MonoBehaviour
 {
-    public event Action<BattleQueue> Empty;
+    public event Action<BattleQueue> Emptied;
+    public bool Empty
+    {
+        get
+        {
+            return _playerCommands.Queue.Count == 0
+              && _statusUpdates.Queue.Count == 0
+              && _weatherUpdates.Queue.Count == 0
+              && _backLog.Queue.Count == 0;
+        }
+    }
 
     [SerializeField] private bool _logRegistrations;
+
+    public List<BaseAction> PlayerCommands { get { return _playerCommands.Queue.ToList(); } }
+    public List<BaseAction> StatusUpdates { get { return _statusUpdates.Queue.ToList(); } }
+    public List<BaseAction> WeatherUpdates { get { return _weatherUpdates.Queue.ToList(); } }
+    public List<BaseAction> BackLog { get { return _backLog.Queue.ToList(); } }
 
     private BattleQueueWrapper _playerCommands;
     private BattleQueueWrapper _statusUpdates;
@@ -52,13 +69,10 @@ public class BattleQueue : MonoBehaviour
 
         _queues = new Queue<BattleQueueWrapper>();
 
-        _playerCommands = new BattleQueueWrapper(BattleQueueType.PlayerCommand);
-        _statusUpdates = new BattleQueueWrapper(BattleQueueType.StatusUpdate, false);
-        _weatherUpdates = new BattleQueueWrapper(BattleQueueType.Weather, false);
-        _backLog = new BattleQueueWrapper(BattleQueueType.Normal);
-
-        _statusUpdates.OnActivation = OnEnterStatusUpdate;
-        _weatherUpdates.OnActivation = OnEnterWeather;
+        _playerCommands = new BattleQueueWrapper(BattleQueueType.PlayerCommand, null);
+        _statusUpdates = new BattleQueueWrapper(BattleQueueType.StatusUpdate, OnEnterStatusUpdate, false);
+        _weatherUpdates = new BattleQueueWrapper(BattleQueueType.Weather, OnEnterWeather, false);
+        _backLog = new BattleQueueWrapper(BattleQueueType.Normal, null);
 
         Reset();
     }
@@ -164,7 +178,7 @@ public class BattleQueue : MonoBehaviour
 
             Reset();
 
-            Empty.InvokeSafe(this);
+            Emptied.InvokeSafe(this);
         }
     }
 
@@ -172,7 +186,7 @@ public class BattleQueue : MonoBehaviour
     {
         action.Completed -= OnActionExecutionComplete;
 
-        if (action.IsGarbage)
+        if (action.FlaggedForRemoval)
             Destroy(action.gameObject);
     }
 

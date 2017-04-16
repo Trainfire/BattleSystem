@@ -7,9 +7,11 @@ public abstract class BaseAction : MonoBehaviour
 
     public event Action<BaseAction> Completed;
 
-    public virtual bool IsGarbage { get { return true; } }
+    public virtual bool FlaggedForRemoval { get { return false; } }
 
     public bool Executed { get; private set; }
+
+    public virtual string LogInfo { get { return string.Empty; } }
 
     private BattleSystem _battleSystem;
 

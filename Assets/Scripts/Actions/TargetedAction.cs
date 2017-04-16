@@ -9,22 +9,22 @@ public class TargetedAction : BaseAction
 
     private List<TargetedAction> _attachedComponents;
 
-    public override bool IsGarbage
-    {
-        get
-        {
-            var lifetime = GetComponent<Lifetime>();
-            if (lifetime == null)
-            {
-                return _attachedComponents.TrueForAll(x => x.Executed);
-            }
-            else
-            {
-                // ???
-                return lifetime.Expired;
-            }
-        }
-    }
+    //public override bool FlaggedForRemoval
+    //{
+    //    get
+    //    {
+    //        var lifetime = GetComponent<Lifetime>();
+    //        if (lifetime == null)
+    //        {
+    //            return _attachedComponents.TrueForAll(x => x.Executed);
+    //        }
+    //        else
+    //        {
+    //            // ???
+    //            return lifetime.Expired;
+    //        }
+    //    }
+    //}
 
     void Awake()
     {
